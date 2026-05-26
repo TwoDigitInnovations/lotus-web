@@ -3,24 +3,44 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --brand-blue: #078DD4;
+  --brand-blue-dark: #0670A8;
+  --brand-dark: #0d1f35;
+  --brand-navy: #1a2e44;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand: #078DD4;
+  --color-brand-dark: #0670A8;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+.section-underline {
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--brand-blue);
+  margin-top: 10px;
+}
+
+.hero-overlay {
+  background: linear-gradient(to right, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.2) 100%);
+}
+
+/* Smooth carousel transitions */
+.slide-enter {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.slide-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.5s, transform 0.5s;
 }
