@@ -1,7 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { blogs as dummyBlogs } from '@/data/siteData';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+import { Api } from '@/lib/api';
 
 function normalize(item) {
   return {
@@ -11,78 +10,79 @@ function normalize(item) {
     date: item.date || item.createdAt?.slice(0, 10) || '',
     description: item.description || item.excerpt || '',
     image: item.image || '',
-    content: Array.isArray(item.content) ? item.content : [item.content || item.description || ''],
+    content: Array.isArray(item.content)
+      ? item.content
+      : [item.content || item.description || ''],
   };
 }
-
-export const fetchBlogs = createAsyncThunk(
-  'blog/fetchAll',
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await fetch(`${API_BASE}/api/blog`);
-      const data = await res.json();
-      if (!res.ok) return rejectWithValue('Failed to load blogs');
-      const items = Array.isArray(data) ? data : data.data || [];
-      if (!items.length) return rejectWithValue('empty');
-      return items.map(normalize);
-    } catch {
-      return rejectWithValue('network');
-    }
-  }
-);
-
-export const fetchBlogBySlug = createAsyncThunk(
-  'blog/fetchBySlug',
-  async (slug, { rejectWithValue }) => {
-    try {
-      const res = await fetch(`${API_BASE}/api/blog/${slug}`);
-      const data = await res.json();
-      if (!res.ok) return rejectWithValue('Not found');
-      return normalize(data.data || data);
-    } catch {
-      return rejectWithValue('network');
-    }
-  }
-);
 
 const blogSlice = createSlice({
   name: 'blog',
   initialState: {
     list: dummyBlogs,
-    status: 'idle',
     bySlug: {},
-    slugStatus: 'idle',
+    loading: false,
+    error: null,
+    fetched: false,
   },
   reducers: {
-    clearSingle(state) {
-      state.slugStatus = 'idle';
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchBlogs.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchBlogs.fulfilled, (state, action) => {
-        state.status = 'success';
-        if (action.payload.length) state.list = action.payload;
-      })
-      .addCase(fetchBlogs.rejected, (state) => {
-        state.status = 'error';
-        // Keep dummy fallback — no overwrite on failure
-      })
-      .addCase(fetchBlogBySlug.pending, (state) => {
-        state.slugStatus = 'loading';
-      })
-      .addCase(fetchBlogBySlug.fulfilled, (state, action) => {
-        state.slugStatus = 'success';
-        state.bySlug[action.payload.slug] = action.payload;
-      })
-      .addCase(fetchBlogBySlug.rejected, (state) => {
-        state.slugStatus = 'error';
-      });
+    setLoading(state, action) { state.loading = action.payload; },
+    setList(state, action) { state.list = action.payload; },
+    setSingle(state, action) { state.bySlug[action.payload.slug] = action.payload; },
+    setError(state, action) { state.error = action.payload; },
+    setFetched(state) { state.fetched = true; },
+    clearSingle(state, action) { delete state.bySlug[action.payload]; },
   },
 });
 
-export const { clearSingle } = blogSlice.actions;
+export const { setLoading, setList, setSingle, setError, setFetched, clearSingle } = blogSlice.actions;
+
+export const fetchBlogs = (router) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    dispatch(setError(null));
+
+    const res = await Api('get', 'blogs', '', router);
+
+    if (res?.status) {
+      const items = Array.isArray(res.data) ? res.data : res.data?.data || [];
+      if (items.length) dispatch(setList(items.map(normalize)));
+    } else {
+      dispatch(setError('Failed to load blogs. Showing cached data.'));
+    }
+
+    dispatch(setLoading(false));
+    dispatch(setFetched());
+    return { success: true, data: res?.data };
+  } catch (err) {
+    dispatch(setLoading(false));
+    dispatch(setFetched());
+    dispatch(setError('Network error. Please check your connection.'));
+    throw err;
+  }
+};
+
+export const fetchBlogBySlug = (slug, router) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    dispatch(setError(null));
+
+    const res = await Api('get', `blogs/${slug}`, '', router);
+
+    if (res?.status) {
+      const blog = normalize(res.data?.data || res.data);
+      dispatch(setSingle(blog));
+    } else {
+      dispatch(setError('Blog not found.'));
+    }
+
+    dispatch(setLoading(false));
+    return { success: res?.status, data: res?.data };
+  } catch (err) {
+    dispatch(setLoading(false));
+    dispatch(setError('Network error. Please check your connection.'));
+    throw err;
+  }
+};
+
 export default blogSlice.reducer;

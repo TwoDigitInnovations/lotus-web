@@ -10,14 +10,14 @@ const DESKTOP_COUNT = 3;
 
 export default function RecentBlogs() {
   const dispatch = useDispatch();
-  const { list: blogs, status } = useSelector((s) => s.blog);
+  const { list: blogs, loading, fetched } = useSelector((s) => s.blog);
   const total = blogs.length;
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
 
   useEffect(() => {
-    if (status === "idle") dispatch(fetchBlogs());
-  }, [status, dispatch]);
+    if (!fetched && !loading) dispatch(fetchBlogs());
+  }, [fetched, loading, dispatch]);
 
   const goTo = (next) => {
     const n = (next + total) % total;
@@ -25,7 +25,9 @@ export default function RecentBlogs() {
     setCurrent(n);
   };
 
-  const desktopBlogs = Array.from({ length: DESKTOP_COUNT }, (_, i) => blogs[(current + i) % total]);
+  // Never repeat the same card — show only as many unique blogs as available (up to 3)
+  const displayCount = Math.min(DESKTOP_COUNT, total);
+  const desktopBlogs = Array.from({ length: displayCount }, (_, i) => blogs[(current + i) % total]);
   const mobileCard = blogs[current % total];
 
   return (
@@ -79,7 +81,7 @@ export default function RecentBlogs() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -direction * 60 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="grid grid-cols-3 gap-6"
+              className={`grid gap-6 ${displayCount === 1 ? "grid-cols-1 max-w-sm" : displayCount === 2 ? "grid-cols-2" : "grid-cols-3"}`}
             >
               {desktopBlogs.map((blog, i) => (
                 <BlogCard key={`${blog.id}-${i}`} blog={blog} delay={i * 0.08} />

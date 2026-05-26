@@ -1,4 +1,3 @@
-
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
@@ -11,21 +10,24 @@ export const navLinks = [
 export const heroSlides = [
   {
     id: 1,
-    image: "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
+    image:
+      "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
     subtitle: "Find Your Dream Properties",
     title: "Luxury Living Redefined",
     highlight: "In Noida",
   },
   {
     id: 2,
-    image: "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
+    image:
+      "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
     subtitle: "Premium Real Estate",
     title: "Your Dream Home",
     highlight: "Awaits You",
   },
   {
     id: 3,
-    image: "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
+    image:
+      "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
     subtitle: "Invest In The Future",
     title: "Smart Properties",
     highlight: "For Smart People",
@@ -59,22 +61,24 @@ export const propertyTypes = [
   {
     id: 1,
     label: "COMMERCIAL",
-    image: "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
+    image:
+      "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
   },
   {
     id: 2,
     label: "RESIDENTIAL",
-    image: "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
+    image:
+      "/images/modern-luxury-home-with-contemporary-architecture-wood-accents.png",
   },
   {
     id: 3,
     label: "VILLAS",
-    image: "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
+    image: "/images/contemporary-villa-with-pool-garden-sleek-design.png",
   },
   {
     id: 4,
     label: "PLOTS",
-    image: "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png",
+    image: "/images/contemporary-villa-with-pool-garden-sleek-design.png",
   },
 ];
 
@@ -82,29 +86,31 @@ export const whyChooseUs = [
   {
     id: 1,
     icon: "shield",
-    title: "Modern & Safe Living",
+    title: "Trusted & Secure Investments",
     description:
-      "Lorem Ipsum is Lorem Ipsum. Lorem Ipsum is. Lorem Ipsum text of the printing and  industry.",
+      "Every project we offer is RERA-registered and legally verified, giving you complete peace of mind. Your investment is backed by full transparency, clear documentation, and regulatory compliance.",
   },
   {
     id: 2,
     icon: "location",
-    title: "Modern & Safe Living",
+    title: "Prime Locations in Noida",
     description:
-      "Lorem Ipsum is Lorem Ipsum. Lorem Ipsum is. Lorem Ipsum text of the printing and  industry.",
+      "We specialise in properties across Noida's most sought-after sectors — strategically chosen for connectivity, growth potential, and proximity to key infrastructure and employment hubs.",
   },
   {
     id: 3,
     icon: "payment",
-    title: "Modern & Safe Living",
+    title: "Flexible Payment Plans",
     description:
-      "Lorem Ipsum is Lorem Ipsum. Lorem Ipsum is. Lorem Ipsum text of the printing and  industry.",
+      "Choose from a range of tailored financing options designed to make your dream home achievable. We partner with leading banks and NBFCs for seamless home loan assistance at competitive rates.",
   },
 ];
 
-const IMG1 = "/images/modern-luxury-home-with-contemporary-architecture-wood-accents.png";
+const IMG1 =
+  "/images/modern-luxury-home-with-contemporary-architecture-wood-accents.png";
 const IMG2 = "/images/contemporary-villa-with-pool-garden-sleek-design.png";
-const IMG3 = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
+const IMG3 =
+  "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
 
 export const projects = [
   {
@@ -116,15 +122,60 @@ export const projects = [
     status: "Under Construction",
     category: "residential",
     image: IMG1,
-    overview: "An architectural marvel beyond compare, M3M Jacob Residences offers uncompromising luxury at a prime locale. Meticulously crafted for the discerning few, and overlooking the picturesque Sector 97, these one-of-a-kind residences epitomise grandeur.",
+    overview:
+      "An architectural marvel beyond compare, M3M Jacob Residences offers uncompromising luxury at a prime locale. Meticulously crafted for the discerning few, and overlooking the picturesque Sector 97, these one-of-a-kind residences epitomise grandeur.",
     documents: [
       { label: "FLOOR PLAN", url: "#" },
       { label: "MASTER PLAN", url: "#" },
       { label: "BROCHURE", url: "#" },
     ],
-    gallery: { photos: [{ id: 1, name: "M3M Jacob Residences", location: "Sector 97, Noida", image: IMG1 }, { id: 2, name: "M3M Exterior", location: "Sector 97, Noida", image: IMG2 }, { id: 3, name: "M3M Lobby", location: "Sector 97, Noida", image: IMG3 }, { id: 4, name: "M3M Garden", location: "Sector 97, Noida", image: IMG2 }], videos: [{ id: 1, name: "Project Walkthrough", location: "Sector 97, Noida", thumbnail: IMG1, videoUrl: "#" }, { id: 2, name: "Site Tour", location: "Sector 97, Noida", thumbnail: IMG2, videoUrl: "#" }] },
-    aboutCity: { name: "Noida", text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover." },
-    aboutSector: { name: "Sector 97", text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover." },
+    gallery: {
+      photos: [
+        {
+          id: 1,
+          name: "M3M Jacob Residences",
+          location: "Sector 97, Noida",
+          image: IMG1,
+        },
+        {
+          id: 2,
+          name: "M3M Exterior",
+          location: "Sector 97, Noida",
+          image: IMG2,
+        },
+        { id: 3, name: "M3M Lobby", location: "Sector 97, Noida", image: IMG3 },
+        {
+          id: 4,
+          name: "M3M Garden",
+          location: "Sector 97, Noida",
+          image: IMG2,
+        },
+      ],
+      videos: [
+        {
+          id: 1,
+          name: "Project Walkthrough",
+          location: "Sector 97, Noida",
+          thumbnail: IMG1,
+          videoUrl: "#",
+        },
+        {
+          id: 2,
+          name: "Site Tour",
+          location: "Sector 97, Noida",
+          thumbnail: IMG2,
+          videoUrl: "#",
+        },
+      ],
+    },
+    aboutCity: {
+      name: "Noida",
+      text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover.",
+    },
+    aboutSector: {
+      name: "Sector 97",
+      text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover.",
+    },
     reraNumber: "P05500088580",
     reraUrl: "https://lorem.ipsum.gov.in/",
   },
@@ -137,15 +188,65 @@ export const projects = [
     status: "Ready to Move",
     category: "commercial",
     image: IMG3,
-    overview: "Lotus Business Park redefines the commercial landscape of Noida with state-of-the-art office spaces, premium retail zones, and world-class amenities. A landmark destination for businesses seeking growth in a thriving economic corridor.",
+    overview:
+      "Lotus Business Park redefines the commercial landscape of Noida with state-of-the-art office spaces, premium retail zones, and world-class amenities. A landmark destination for businesses seeking growth in a thriving economic corridor.",
     documents: [
       { label: "FLOOR PLAN", url: "#" },
       { label: "MASTER PLAN", url: "#" },
       { label: "BROCHURE", url: "#" },
     ],
-    gallery: { photos: [{ id: 1, name: "Lotus Business Park", location: "Sector 62, Noida", image: IMG3 }, { id: 2, name: "Business Lobby", location: "Sector 62, Noida", image: IMG1 }, { id: 3, name: "Conference Room", location: "Sector 62, Noida", image: IMG2 }, { id: 4, name: "Rooftop View", location: "Sector 62, Noida", image: IMG1 }], videos: [{ id: 1, name: "Project Walkthrough", location: "Sector 62, Noida", thumbnail: IMG3, videoUrl: "#" }, { id: 2, name: "Site Tour", location: "Sector 62, Noida", thumbnail: IMG1, videoUrl: "#" }] },
-    aboutCity: { name: "Noida", text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover." },
-    aboutSector: { name: "Sector 62", text: "Sector 62 is one of Noida's most established commercial and IT corridors, home to numerous Fortune 500 companies, tech parks, and premier office complexes. Excellent metro connectivity and proximity to Delhi make it the most sought-after address for corporate headquarters." },
+    gallery: {
+      photos: [
+        {
+          id: 1,
+          name: "Lotus Business Park",
+          location: "Sector 62, Noida",
+          image: IMG3,
+        },
+        {
+          id: 2,
+          name: "Business Lobby",
+          location: "Sector 62, Noida",
+          image: IMG1,
+        },
+        {
+          id: 3,
+          name: "Conference Room",
+          location: "Sector 62, Noida",
+          image: IMG2,
+        },
+        {
+          id: 4,
+          name: "Rooftop View",
+          location: "Sector 62, Noida",
+          image: IMG1,
+        },
+      ],
+      videos: [
+        {
+          id: 1,
+          name: "Project Walkthrough",
+          location: "Sector 62, Noida",
+          thumbnail: IMG3,
+          videoUrl: "#",
+        },
+        {
+          id: 2,
+          name: "Site Tour",
+          location: "Sector 62, Noida",
+          thumbnail: IMG1,
+          videoUrl: "#",
+        },
+      ],
+    },
+    aboutCity: {
+      name: "Noida",
+      text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover.",
+    },
+    aboutSector: {
+      name: "Sector 62",
+      text: "Sector 62 is one of Noida's most established commercial and IT corridors, home to numerous Fortune 500 companies, tech parks, and premier office complexes. Excellent metro connectivity and proximity to Delhi make it the most sought-after address for corporate headquarters.",
+    },
     reraNumber: "P05500012345",
     reraUrl: "https://lorem.ipsum.gov.in/",
   },
@@ -158,15 +259,60 @@ export const projects = [
     status: "Under Construction",
     category: "residential",
     image: IMG2,
-    overview: "Green Valley Homes brings nature and luxury together in perfect harmony. Nestled amid lush green landscapes in Sector 150, these meticulously designed residences offer a serene escape from the urban hustle while keeping you connected to every modern convenience.",
+    overview:
+      "Green Valley Homes brings nature and luxury together in perfect harmony. Nestled amid lush green landscapes in Sector 150, these meticulously designed residences offer a serene escape from the urban hustle while keeping you connected to every modern convenience.",
     documents: [
       { label: "FLOOR PLAN", url: "#" },
       { label: "MASTER PLAN", url: "#" },
       { label: "BROCHURE", url: "#" },
     ],
-    gallery: { photos: [{ id: 1, name: "Green Valley Homes", location: "Sector 150, Noida", image: IMG2 }, { id: 2, name: "Garden View", location: "Sector 150, Noida", image: IMG1 }, { id: 3, name: "Interior", location: "Sector 150, Noida", image: IMG3 }, { id: 4, name: "Amenities", location: "Sector 150, Noida", image: IMG1 }], videos: [{ id: 1, name: "Project Walkthrough", location: "Sector 150, Noida", thumbnail: IMG2, videoUrl: "#" }, { id: 2, name: "Site Tour", location: "Sector 150, Noida", thumbnail: IMG3, videoUrl: "#" }] },
-    aboutCity: { name: "Noida", text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover." },
-    aboutSector: { name: "Sector 150", text: "Sector 150 is Noida's greenest and most premium residential destination, offering over 80% open green spaces. With world-class sports facilities, pristine air quality, and direct access to the Noida-Greater Noida Expressway, it is the ultimate address for a healthy and luxurious lifestyle." },
+    gallery: {
+      photos: [
+        {
+          id: 1,
+          name: "Green Valley Homes",
+          location: "Sector 150, Noida",
+          image: IMG2,
+        },
+        {
+          id: 2,
+          name: "Garden View",
+          location: "Sector 150, Noida",
+          image: IMG1,
+        },
+        { id: 3, name: "Interior", location: "Sector 150, Noida", image: IMG3 },
+        {
+          id: 4,
+          name: "Amenities",
+          location: "Sector 150, Noida",
+          image: IMG1,
+        },
+      ],
+      videos: [
+        {
+          id: 1,
+          name: "Project Walkthrough",
+          location: "Sector 150, Noida",
+          thumbnail: IMG2,
+          videoUrl: "#",
+        },
+        {
+          id: 2,
+          name: "Site Tour",
+          location: "Sector 150, Noida",
+          thumbnail: IMG3,
+          videoUrl: "#",
+        },
+      ],
+    },
+    aboutCity: {
+      name: "Noida",
+      text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover.",
+    },
+    aboutSector: {
+      name: "Sector 150",
+      text: "Sector 150 is Noida's greenest and most premium residential destination, offering over 80% open green spaces. With world-class sports facilities, pristine air quality, and direct access to the Noida-Greater Noida Expressway, it is the ultimate address for a healthy and luxurious lifestyle.",
+    },
     reraNumber: "P05500067890",
     reraUrl: "https://lorem.ipsum.gov.in/",
   },
@@ -179,15 +325,65 @@ export const projects = [
     status: "Under Construction",
     category: "commercial",
     image: IMG1,
-    overview: "Lotus Tech Hub is a next-generation technology park designed to foster innovation and collaboration. With cutting-edge infrastructure, high-speed connectivity, and flexible workspace configurations, it is the ideal home for technology companies and startups.",
+    overview:
+      "Lotus Tech Hub is a next-generation technology park designed to foster innovation and collaboration. With cutting-edge infrastructure, high-speed connectivity, and flexible workspace configurations, it is the ideal home for technology companies and startups.",
     documents: [
       { label: "FLOOR PLAN", url: "#" },
       { label: "MASTER PLAN", url: "#" },
       { label: "BROCHURE", url: "#" },
     ],
-    gallery: { photos: [{ id: 1, name: "Lotus Tech Hub", location: "Sector 132, Noida", image: IMG1 }, { id: 2, name: "Tech Campus", location: "Sector 132, Noida", image: IMG3 }, { id: 3, name: "Co-working Space", location: "Sector 132, Noida", image: IMG2 }, { id: 4, name: "Cafeteria", location: "Sector 132, Noida", image: IMG3 }], videos: [{ id: 1, name: "Project Walkthrough", location: "Sector 132, Noida", thumbnail: IMG1, videoUrl: "#" }, { id: 2, name: "Site Tour", location: "Sector 132, Noida", thumbnail: IMG2, videoUrl: "#" }] },
-    aboutCity: { name: "Noida", text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover." },
-    aboutSector: { name: "Sector 132", text: "Sector 132 is rapidly emerging as Noida's premier IT and commercial destination. Strategically located along the Noida-Greater Noida Expressway with excellent metro access, it offers businesses a dynamic ecosystem with premium office spaces and a skilled workforce catchment." },
+    gallery: {
+      photos: [
+        {
+          id: 1,
+          name: "Lotus Tech Hub",
+          location: "Sector 132, Noida",
+          image: IMG1,
+        },
+        {
+          id: 2,
+          name: "Tech Campus",
+          location: "Sector 132, Noida",
+          image: IMG3,
+        },
+        {
+          id: 3,
+          name: "Co-working Space",
+          location: "Sector 132, Noida",
+          image: IMG2,
+        },
+        {
+          id: 4,
+          name: "Cafeteria",
+          location: "Sector 132, Noida",
+          image: IMG3,
+        },
+      ],
+      videos: [
+        {
+          id: 1,
+          name: "Project Walkthrough",
+          location: "Sector 132, Noida",
+          thumbnail: IMG1,
+          videoUrl: "#",
+        },
+        {
+          id: 2,
+          name: "Site Tour",
+          location: "Sector 132, Noida",
+          thumbnail: IMG2,
+          videoUrl: "#",
+        },
+      ],
+    },
+    aboutCity: {
+      name: "Noida",
+      text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover.",
+    },
+    aboutSector: {
+      name: "Sector 132",
+      text: "Sector 132 is rapidly emerging as Noida's premier IT and commercial destination. Strategically located along the Noida-Greater Noida Expressway with excellent metro access, it offers businesses a dynamic ecosystem with premium office spaces and a skilled workforce catchment.",
+    },
     reraNumber: "P05500099999",
     reraUrl: "https://lorem.ipsum.gov.in/",
   },
@@ -200,15 +396,65 @@ export const projects = [
     status: "Ready to Move",
     category: "residential",
     image: IMG2,
-    overview: "Lotus Heights stands as a benchmark of affordable luxury in Sector 168. Designed for modern families, it offers spacious 2 and 3 BHK residences with premium fittings, landscaped gardens, and a full suite of lifestyle amenities — all within a secure, gated community.",
+    overview:
+      "Lotus Heights stands as a benchmark of affordable luxury in Sector 168. Designed for modern families, it offers spacious 2 and 3 BHK residences with premium fittings, landscaped gardens, and a full suite of lifestyle amenities — all within a secure, gated community.",
     documents: [
       { label: "FLOOR PLAN", url: "#" },
       { label: "MASTER PLAN", url: "#" },
       { label: "BROCHURE", url: "#" },
     ],
-    gallery: { photos: [{ id: 1, name: "Lotus Heights", location: "Sector 168, Noida", image: IMG2 }, { id: 2, name: "Clubhouse", location: "Sector 168, Noida", image: IMG1 }, { id: 3, name: "Swimming Pool", location: "Sector 168, Noida", image: IMG3 }, { id: 4, name: "Garden View", location: "Sector 168, Noida", image: IMG2 }], videos: [{ id: 1, name: "Project Walkthrough", location: "Sector 168, Noida", thumbnail: IMG2, videoUrl: "#" }, { id: 2, name: "Site Tour", location: "Sector 168, Noida", thumbnail: IMG1, videoUrl: "#" }] },
-    aboutCity: { name: "Noida", text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover." },
-    aboutSector: { name: "Sector 168", text: "Sector 168 is a fast-developing residential precinct along the Noida-Greater Noida Expressway. Known for its wide boulevards, proximity to corporate hubs, and excellent social infrastructure including schools, hospitals, and retail centres, it offers an ideal balance of connectivity and quality living." },
+    gallery: {
+      photos: [
+        {
+          id: 1,
+          name: "Lotus Heights",
+          location: "Sector 168, Noida",
+          image: IMG2,
+        },
+        {
+          id: 2,
+          name: "Clubhouse",
+          location: "Sector 168, Noida",
+          image: IMG1,
+        },
+        {
+          id: 3,
+          name: "Swimming Pool",
+          location: "Sector 168, Noida",
+          image: IMG3,
+        },
+        {
+          id: 4,
+          name: "Garden View",
+          location: "Sector 168, Noida",
+          image: IMG2,
+        },
+      ],
+      videos: [
+        {
+          id: 1,
+          name: "Project Walkthrough",
+          location: "Sector 168, Noida",
+          thumbnail: IMG2,
+          videoUrl: "#",
+        },
+        {
+          id: 2,
+          name: "Site Tour",
+          location: "Sector 168, Noida",
+          thumbnail: IMG1,
+          videoUrl: "#",
+        },
+      ],
+    },
+    aboutCity: {
+      name: "Noida",
+      text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover.",
+    },
+    aboutSector: {
+      name: "Sector 168",
+      text: "Sector 168 is a fast-developing residential precinct along the Noida-Greater Noida Expressway. Known for its wide boulevards, proximity to corporate hubs, and excellent social infrastructure including schools, hospitals, and retail centres, it offers an ideal balance of connectivity and quality living.",
+    },
     reraNumber: "P05500077711",
     reraUrl: "https://lorem.ipsum.gov.in/",
   },
@@ -221,15 +467,65 @@ export const projects = [
     status: "Ready to Move",
     category: "commercial",
     image: IMG3,
-    overview: "Emerald Square is a premium commercial complex at the heart of Sector 18, Noida's most vibrant retail and business district. The development features Grade-A office spaces, high-street retail units, and a food court, making it the ultimate destination for businesses and shoppers alike.",
+    overview:
+      "Emerald Square is a premium commercial complex at the heart of Sector 18, Noida's most vibrant retail and business district. The development features Grade-A office spaces, high-street retail units, and a food court, making it the ultimate destination for businesses and shoppers alike.",
     documents: [
       { label: "FLOOR PLAN", url: "#" },
       { label: "MASTER PLAN", url: "#" },
       { label: "BROCHURE", url: "#" },
     ],
-    gallery: { photos: [{ id: 1, name: "Emerald Square", location: "Sector 18, Noida", image: IMG3 }, { id: 2, name: "Retail Zone", location: "Sector 18, Noida", image: IMG2 }, { id: 3, name: "Office Lobby", location: "Sector 18, Noida", image: IMG1 }, { id: 4, name: "Food Court", location: "Sector 18, Noida", image: IMG3 }], videos: [{ id: 1, name: "Project Walkthrough", location: "Sector 18, Noida", thumbnail: IMG3, videoUrl: "#" }, { id: 2, name: "Site Tour", location: "Sector 18, Noida", thumbnail: IMG2, videoUrl: "#" }] },
-    aboutCity: { name: "Noida", text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover." },
-    aboutSector: { name: "Sector 18", text: "Sector 18 is the commercial nerve centre of Noida — a bustling hub of malls, multiplexes, restaurants, and corporate offices. With direct metro access and footfall of over 200,000 visitors daily, it commands the highest commercial real estate premiums in the city." },
+    gallery: {
+      photos: [
+        {
+          id: 1,
+          name: "Emerald Square",
+          location: "Sector 18, Noida",
+          image: IMG3,
+        },
+        {
+          id: 2,
+          name: "Retail Zone",
+          location: "Sector 18, Noida",
+          image: IMG2,
+        },
+        {
+          id: 3,
+          name: "Office Lobby",
+          location: "Sector 18, Noida",
+          image: IMG1,
+        },
+        {
+          id: 4,
+          name: "Food Court",
+          location: "Sector 18, Noida",
+          image: IMG3,
+        },
+      ],
+      videos: [
+        {
+          id: 1,
+          name: "Project Walkthrough",
+          location: "Sector 18, Noida",
+          thumbnail: IMG3,
+          videoUrl: "#",
+        },
+        {
+          id: 2,
+          name: "Site Tour",
+          location: "Sector 18, Noida",
+          thumbnail: IMG2,
+          videoUrl: "#",
+        },
+      ],
+    },
+    aboutCity: {
+      name: "Noida",
+      text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover.",
+    },
+    aboutSector: {
+      name: "Sector 18",
+      text: "Sector 18 is the commercial nerve centre of Noida — a bustling hub of malls, multiplexes, restaurants, and corporate offices. With direct metro access and footfall of over 200,000 visitors daily, it commands the highest commercial real estate premiums in the city.",
+    },
     reraNumber: "P05500033322",
     reraUrl: "https://lorem.ipsum.gov.in/",
   },
@@ -242,15 +538,65 @@ export const projects = [
     status: "Under Construction",
     category: "residential",
     image: IMG1,
-    overview: "The Palm Residences is a boutique luxury community in Sector 120, offering a rare combination of privacy, nature, and urban convenience. Each residence is thoughtfully designed with double-height living rooms, private terraces, and premium European fittings that elevate everyday living.",
+    overview:
+      "The Palm Residences is a boutique luxury community in Sector 120, offering a rare combination of privacy, nature, and urban convenience. Each residence is thoughtfully designed with double-height living rooms, private terraces, and premium European fittings that elevate everyday living.",
     documents: [
       { label: "FLOOR PLAN", url: "#" },
       { label: "MASTER PLAN", url: "#" },
       { label: "BROCHURE", url: "#" },
     ],
-    gallery: { photos: [{ id: 1, name: "The Palm Residences", location: "Sector 120, Noida", image: IMG1 }, { id: 2, name: "Terrace View", location: "Sector 120, Noida", image: IMG3 }, { id: 3, name: "Living Room", location: "Sector 120, Noida", image: IMG2 }, { id: 4, name: "Landscaped Gardens", location: "Sector 120, Noida", image: IMG1 }], videos: [{ id: 1, name: "Project Walkthrough", location: "Sector 120, Noida", thumbnail: IMG1, videoUrl: "#" }, { id: 2, name: "Site Tour", location: "Sector 120, Noida", thumbnail: IMG3, videoUrl: "#" }] },
-    aboutCity: { name: "Noida", text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover." },
-    aboutSector: { name: "Sector 120", text: "Sector 120 is an established residential sector in Noida known for its tree-lined streets, strong social infrastructure, and peaceful environment. Well-connected to business districts via the metro and expressway, it is a preferred choice for families seeking quality living away from the city's bustle." },
+    gallery: {
+      photos: [
+        {
+          id: 1,
+          name: "The Palm Residences",
+          location: "Sector 120, Noida",
+          image: IMG1,
+        },
+        {
+          id: 2,
+          name: "Terrace View",
+          location: "Sector 120, Noida",
+          image: IMG3,
+        },
+        {
+          id: 3,
+          name: "Living Room",
+          location: "Sector 120, Noida",
+          image: IMG2,
+        },
+        {
+          id: 4,
+          name: "Landscaped Gardens",
+          location: "Sector 120, Noida",
+          image: IMG1,
+        },
+      ],
+      videos: [
+        {
+          id: 1,
+          name: "Project Walkthrough",
+          location: "Sector 120, Noida",
+          thumbnail: IMG1,
+          videoUrl: "#",
+        },
+        {
+          id: 2,
+          name: "Site Tour",
+          location: "Sector 120, Noida",
+          thumbnail: IMG3,
+          videoUrl: "#",
+        },
+      ],
+    },
+    aboutCity: {
+      name: "Noida",
+      text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover.",
+    },
+    aboutSector: {
+      name: "Sector 120",
+      text: "Sector 120 is an established residential sector in Noida known for its tree-lined streets, strong social infrastructure, and peaceful environment. Well-connected to business districts via the metro and expressway, it is a preferred choice for families seeking quality living away from the city's bustle.",
+    },
     reraNumber: "P05500044433",
     reraUrl: "https://lorem.ipsum.gov.in/",
   },
@@ -263,15 +609,65 @@ export const projects = [
     status: "Under Construction",
     category: "commercial",
     image: IMG2,
-    overview: "Lotus Grand Mall is set to become Noida's most iconic retail and entertainment destination. Spread across 1.2 million square feet, it will house international brands, a multiplex, fine dining restaurants, an indoor sports arena, and premium office towers — redefining retail real estate in NCR.",
+    overview:
+      "Lotus Grand Mall is set to become Noida's most iconic retail and entertainment destination. Spread across 1.2 million square feet, it will house international brands, a multiplex, fine dining restaurants, an indoor sports arena, and premium office towers — redefining retail real estate in NCR.",
     documents: [
       { label: "FLOOR PLAN", url: "#" },
       { label: "MASTER PLAN", url: "#" },
       { label: "BROCHURE", url: "#" },
     ],
-    gallery: { photos: [{ id: 1, name: "Lotus Grand Mall", location: "Sector 38, Noida", image: IMG2 }, { id: 2, name: "Mall Atrium", location: "Sector 38, Noida", image: IMG3 }, { id: 3, name: "Retail Promenade", location: "Sector 38, Noida", image: IMG1 }, { id: 4, name: "Entertainment Zone", location: "Sector 38, Noida", image: IMG2 }], videos: [{ id: 1, name: "Project Walkthrough", location: "Sector 38, Noida", thumbnail: IMG2, videoUrl: "#" }, { id: 2, name: "Site Tour", location: "Sector 38, Noida", thumbnail: IMG3, videoUrl: "#" }] },
-    aboutCity: { name: "Noida", text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover." },
-    aboutSector: { name: "Sector 38", text: "Sector 38 is strategically located at the intersection of Noida's major arterial roads, offering excellent connectivity to all parts of the city and Delhi NCR. Its rapidly growing catchment population and high vehicular traffic make it an outstanding location for large-format retail and entertainment developments." },
+    gallery: {
+      photos: [
+        {
+          id: 1,
+          name: "Lotus Grand Mall",
+          location: "Sector 38, Noida",
+          image: IMG2,
+        },
+        {
+          id: 2,
+          name: "Mall Atrium",
+          location: "Sector 38, Noida",
+          image: IMG3,
+        },
+        {
+          id: 3,
+          name: "Retail Promenade",
+          location: "Sector 38, Noida",
+          image: IMG1,
+        },
+        {
+          id: 4,
+          name: "Entertainment Zone",
+          location: "Sector 38, Noida",
+          image: IMG2,
+        },
+      ],
+      videos: [
+        {
+          id: 1,
+          name: "Project Walkthrough",
+          location: "Sector 38, Noida",
+          thumbnail: IMG2,
+          videoUrl: "#",
+        },
+        {
+          id: 2,
+          name: "Site Tour",
+          location: "Sector 38, Noida",
+          thumbnail: IMG3,
+          videoUrl: "#",
+        },
+      ],
+    },
+    aboutCity: {
+      name: "Noida",
+      text: "Noida (New Okhla Industrial Development Authority) is a premier, planned satellite city in the Gautam Buddh Nagar district of Uttar Pradesh, India. As an integral part of the Delhi National Capital Region (NCR), it is a major economic, IT, and residential hub known for its modern infrastructure, wide roads, and extensive green cover.",
+    },
+    aboutSector: {
+      name: "Sector 38",
+      text: "Sector 38 is strategically located at the intersection of Noida's major arterial roads, offering excellent connectivity to all parts of the city and Delhi NCR. Its rapidly growing catchment population and high vehicular traffic make it an outstanding location for large-format retail and entertainment developments.",
+    },
     reraNumber: "P05500055566",
     reraUrl: "https://lorem.ipsum.gov.in/",
   },
@@ -364,7 +760,8 @@ export const galleryVideos = [
     name: "Project Walkthrough",
     location: "Sector 97, Noida",
     thumbnail: IMG1,
-    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    videoUrl:
+      "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
   },
   {
     id: 2,
@@ -392,7 +789,8 @@ export const galleryVideos = [
     name: "Drone Tour 2024",
     location: "Sector 168, Noida",
     thumbnail: IMG2,
-    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFuns.mp4",
+    videoUrl:
+      "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFuns.mp4",
   },
   {
     id: 6,
@@ -413,14 +811,15 @@ export const galleryVideos = [
     name: "Infrastructure Overview",
     location: "Sector 38, Noida",
     thumbnail: IMG2,
-    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    videoUrl:
+      "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
   },
 ];
 
 export const testimonials = [
   {
     id: 1,
-    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero",
+    text: "Lotusss made our home-buying journey completely stress-free. From shortlisting the right property in Sector 150 to handling all the paperwork, their team was professional, transparent, and genuinely invested in our satisfaction. We could not have asked for a better experience.",
     name: "Ahmed Elsayed",
     role: "Our Client",
   },
@@ -538,7 +937,8 @@ export const blogs = [
 ];
 
 export const footerData = {
-  description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit,",
+  description:
+    "Your trusted partner in premium real estate across Noida & NCR. We connect homeowners and investors with the finest residential, commercial, and villa projects.",
   menuLinks: [
     { label: "About Us", href: "/about" },
     { label: "Projects", href: "/projects" },
@@ -552,7 +952,7 @@ export const footerData = {
     email: "info@lotusss.com",
     website: "www.lotusss.com",
     address: "Sector 94, Noida",
-    addressLine2: "New Jersey 45463",
+    addressLine2: "Uttar Pradesh 201301",
   },
   socialLinks: [
     { platform: "twitter", href: "#", label: "Twitter" },
@@ -560,8 +960,8 @@ export const footerData = {
     { platform: "facebook", href: "#", label: "Facebook" },
   ],
   socialTextLinks: [
-    { label: "Lorem ipsum", href: "#" },
-    { label: "Lorem ipsum dolor", href: "#" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms of Service", href: "/terms-of-service" },
   ],
   whatsapp: "+911234556",
 };

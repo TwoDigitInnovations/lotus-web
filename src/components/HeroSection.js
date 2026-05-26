@@ -36,8 +36,14 @@ export default function HeroSection() {
             className="object-cover"
             priority
           />
+          {/* Mobile: bottom gradient so text at top/center is readable */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 md:hidden"
+            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.65) 100%)" }}
+          />
+          {/* Desktop: left-heavy gradient for side text layout */}
+          <div
+            className="absolute inset-0 hidden md:block"
             style={{ background: "linear-gradient(to right, rgba(0,0,0,0.72) 45%, rgba(0,0,0,0.25) 100%)" }}
           />
         </motion.div>

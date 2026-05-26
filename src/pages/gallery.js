@@ -11,15 +11,15 @@ const PER_PAGE = 4;
 
 export default function GalleryPage() {
   const dispatch = useDispatch();
-  const { photos, videos, status } = useSelector((s) => s.gallery);
+  const { photos, videos, loading, fetched } = useSelector((s) => s.gallery);
   const [tab, setTab] = useState("photos");
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(1);
   const [activeVideo, setActiveVideo] = useState(null);
 
   useEffect(() => {
-    if (status === "idle") dispatch(fetchGallery());
-  }, [status, dispatch]);
+    if (!fetched && !loading) dispatch(fetchGallery());
+  }, [fetched, loading, dispatch]);
 
   const items = tab === "photos" ? photos : videos;
   const totalPages = Math.ceil(items.length / PER_PAGE);

@@ -9,14 +9,14 @@ import VideoModal from "@/components/VideoModal";
 
 export default function Gallery() {
   const dispatch = useDispatch();
-  const { photos, videos, status } = useSelector((s) => s.gallery);
+  const { photos, videos, loading, fetched } = useSelector((s) => s.gallery);
   const [tab, setTab] = useState("photos");
   const [startIndex, setStartIndex] = useState(0);
   const [activeVideo, setActiveVideo] = useState(null);
 
   useEffect(() => {
-    if (status === "idle") dispatch(fetchGallery());
-  }, [status, dispatch]);
+    if (!fetched && !loading) dispatch(fetchGallery());
+  }, [fetched, loading, dispatch]);
 
   const items = tab === "photos" ? photos : videos;
   const visible = items.slice(startIndex, startIndex + 2);

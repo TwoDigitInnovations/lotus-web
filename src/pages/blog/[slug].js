@@ -1,62 +1,53 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { blogs as dummyBlogs } from "@/data/siteData";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBlogBySlug, fetchBlogs } from "@/store/slices/blogSlice";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+export default function BlogDetail() {
+  const router = useRouter();
+  const { slug } = router.query;
+  const dispatch = useDispatch();
+  const { bySlug, list, loading } = useSelector((s) => s.blog);
 
-function normalize(item) {
-  return {
-    id: item._id || item.id,
-    slug: item.slug,
-    title: item.title,
-    date: item.date || item.createdAt?.slice(0, 10) || '',
-    description: item.description || item.excerpt || '',
-    image: item.image || '',
-    content: Array.isArray(item.content) ? item.content : [item.content || item.description || ''],
-  };
-}
+  const blog = bySlug[slug] || list.find((b) => b.slug === slug) || null;
+  const related = list.filter((b) => b.slug !== slug).slice(0, 2);
 
-export async function getStaticPaths() {
-  return {
-    paths: dummyBlogs.map((b) => ({ params: { slug: b.slug } })),
-    fallback: 'blocking',
-  };
-}
+  useEffect(() => {
+    if (!slug) return;
+    dispatch(fetchBlogBySlug(slug));
+    if (!list.length) dispatch(fetchBlogs());
+  }, [slug]);
 
-export async function getStaticProps({ params }) {
-  let blog = null;
-  let allBlogs = dummyBlogs;
-
-  try {
-    const [blogRes, listRes] = await Promise.allSettled([
-      fetch(`${API_BASE}/api/blog/${params.slug}`),
-      fetch(`${API_BASE}/api/blog`),
-    ]);
-
-    if (blogRes.status === 'fulfilled' && blogRes.value.ok) {
-      const data = await blogRes.value.json();
-      blog = normalize(data.data || data);
-    }
-
-    if (listRes.status === 'fulfilled' && listRes.value.ok) {
-      const data = await listRes.value.json();
-      const items = Array.isArray(data) ? data : data.data || [];
-      if (items.length) allBlogs = items.map(normalize);
-    }
-  } catch {
-    // backend not available — use siteData
+  // Loading skeleton
+  if (!slug || (!blog && loading)) {
+    return (
+      <main className="bg-white min-h-screen">
+        <div className="w-full bg-gray-200 animate-pulse" style={{ height: "320px" }} />
+        <div className="max-w-4xl mx-auto px-6 py-14 flex flex-col gap-4">
+          <div className="h-4 bg-gray-200 rounded animate-pulse w-24" />
+          <div className="h-6 bg-gray-200 rounded animate-pulse w-3/4" />
+          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
+          <div className="h-4 bg-gray-200 rounded animate-pulse w-5/6" />
+          <div className="h-4 bg-gray-200 rounded animate-pulse w-full" />
+        </div>
+      </main>
+    );
   }
 
-  if (!blog) blog = dummyBlogs.find((b) => b.slug === params.slug) || null;
-  if (!blog) return { notFound: true };
-
-  const related = allBlogs.filter((b) => b.slug !== params.slug).slice(0, 2);
-  return { props: { blog, related }, revalidate: 60 };
-}
-
-export default function BlogDetail({ blog, related }) {
-  if (!blog) return null;
+  // Not found
+  if (!blog) {
+    return (
+      <main className="bg-white min-h-screen flex flex-col items-center justify-center gap-4">
+        <p className="text-gray-500 text-lg">Blog not found.</p>
+        <Link href="/blog" className="text-sm font-semibold" style={{ color: "#078DD4" }}>
+          ← Back to Blogs
+        </Link>
+      </main>
+    );
+  }
 
   return (
     <main className="bg-white min-h-screen">
@@ -112,7 +103,7 @@ export default function BlogDetail({ blog, related }) {
           className="mb-10"
         >
           <Link
-            href="/#blogs"
+            href="/blog"
             className="inline-flex items-center gap-2 text-sm font-semibold"
             style={{ color: "#078DD4" }}
           >

@@ -7,16 +7,33 @@ import { fadeInLeft, fadeInRight, fadeInUp, staggerContainer } from "@/lib/anima
 
 const EMPTY = { name: "", phone: "", subject: "", message: "" };
 
+function validate(form) {
+  const e = {};
+  if (!form.name.trim() || form.name.trim().length < 2) e.name = "Please enter your name";
+  if (!form.phone.trim() || !/^\d{7,15}$/.test(form.phone.trim())) e.phone = "Phone must be 7–15 digits (numbers only)";
+  if (!form.subject.trim()) e.subject = "Please enter a subject";
+  if (!form.message.trim()) e.message = "Please write your message";
+  return e;
+}
+
 export default function ContactSection() {
   const dispatch = useDispatch();
   const { status, error } = useSelector((s) => s.contact);
   const [form, setForm] = useState(EMPTY);
+  const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const cleaned = name === "phone" ? value.replace(/\D/g, "").slice(0, 15) : value;
+    setForm((prev) => ({ ...prev, [name]: cleaned }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.phone.trim() || !form.subject.trim() || !form.message.trim()) return;
+    const errs = validate(form);
+    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    setErrors({});
     dispatch(submitContact(form));
     setForm(EMPTY);
   };
@@ -83,28 +100,61 @@ export default function ContactSection() {
                   viewport={{ once: true }}
                 >
                   {fields.map((f) => (
-                    <motion.input
-                      key={f.name}
-                      variants={fadeInUp}
-                      type={f.type}
-                      name={f.name}
-                      placeholder={f.placeholder}
-                      value={form[f.name]}
-                      onChange={handleChange}
-                      className="w-full bg-transparent border border-white/25 rounded-lg px-4 py-3 text-white placeholder-white/40 text-sm outline-none transition"
-                      whileFocus={{ borderColor: "rgba(255,255,255,0.7)", boxShadow: "0 0 0 2px rgba(255,255,255,0.1)" }}
-                    />
+                    <div key={f.name} className="flex flex-col gap-1">
+                      <input
+                        type={f.type}
+                        name={f.name}
+                        placeholder={f.placeholder}
+                        value={form[f.name]}
+                        onChange={handleChange}
+                        className="w-full bg-transparent rounded-lg px-4 py-3 text-white placeholder-white/40 text-sm outline-none transition-all"
+                        style={{ border: `1px solid ${errors[f.name] ? "rgba(252,165,165,0.7)" : "rgba(255,255,255,0.25)"}` }}
+                        onFocus={(e) => { e.target.style.borderColor = errors[f.name] ? "rgba(252,165,165,0.9)" : "rgba(255,255,255,0.7)"; }}
+                        onBlur={(e) => { e.target.style.borderColor = errors[f.name] ? "rgba(252,165,165,0.7)" : "rgba(255,255,255,0.25)"; }}
+                      />
+                      <AnimatePresence>
+                        {errors[f.name] && (
+                          <motion.span
+                            key={`err-${f.name}`}
+                            initial={{ opacity: 0, y: -4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -4 }}
+                            transition={{ duration: 0.2 }}
+                            className="text-red-300 text-xs px-1"
+                          >
+                            {errors[f.name]}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   ))}
-                  <motion.textarea
-                    variants={fadeInUp}
-                    name="message"
-                    placeholder="Write Your Message Here..."
-                    value={form.message}
-                    onChange={handleChange}
-                    rows={4}
-                    className="w-full bg-transparent border border-white/25 rounded-lg px-4 py-3 text-white placeholder-white/40 text-sm outline-none transition resize-none"
-                    whileFocus={{ borderColor: "rgba(255,255,255,0.7)", boxShadow: "0 0 0 2px rgba(255,255,255,0.1)" }}
-                  />
+                  <div className="flex flex-col gap-1">
+                    <textarea
+                      name="message"
+                      placeholder="Write Your Message Here..."
+                      value={form.message}
+                      onChange={handleChange}
+                      rows={4}
+                      className="w-full bg-transparent rounded-lg px-4 py-3 text-white placeholder-white/40 text-sm outline-none transition-all resize-none"
+                      style={{ border: `1px solid ${errors.message ? "rgba(252,165,165,0.7)" : "rgba(255,255,255,0.25)"}` }}
+                      onFocus={(e) => { e.target.style.borderColor = errors.message ? "rgba(252,165,165,0.9)" : "rgba(255,255,255,0.7)"; }}
+                      onBlur={(e) => { e.target.style.borderColor = errors.message ? "rgba(252,165,165,0.7)" : "rgba(255,255,255,0.25)"; }}
+                    />
+                    <AnimatePresence>
+                      {errors.message && (
+                        <motion.span
+                          key="err-message"
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          transition={{ duration: 0.2 }}
+                          className="text-red-300 text-xs px-1"
+                        >
+                          {errors.message}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
                   {status === "error" && error && (
                     <motion.p
                       initial={{ opacity: 0, y: -4 }}

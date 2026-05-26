@@ -1,17 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { projects } from "@/data/siteData";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProjects } from "@/store/slices/projectSlice";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
 const FILTERS = ["All", "Commercial", "Residential"];
 const PER_PAGE = 4;
 
 export default function ProjectsPage() {
+  const dispatch = useDispatch();
+  const { list: projects, loading, fetched } = useSelector((s) => s.project);
   const [activeFilter, setActiveFilter] = useState("All");
   const [page, setPage] = useState(1);
   const [direction, setDirection] = useState(1);
+
+  useEffect(() => {
+    if (!fetched && !loading) dispatch(fetchProjects());
+  }, [fetched, loading, dispatch]);
 
   const filtered =
     activeFilter === "All"

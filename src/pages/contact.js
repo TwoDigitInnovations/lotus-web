@@ -13,7 +13,7 @@ function validate(form) {
   const e = {};
   if (!form.name.trim() || form.name.trim().length < 2) e.name = "Please enter your name";
   if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = "Please enter a valid email address";
-  if (!form.phone.trim() || !/^[\d\s+\-().]{7,20}$/.test(form.phone.trim())) e.phone = "Please enter a valid phone number";
+  if (!form.phone.trim() || !/^\d{7,15}$/.test(form.phone.trim())) e.phone = "Phone number must be 7–15 digits (numbers only)";
   if (!form.subject.trim()) e.subject = "Please enter a subject";
   if (!form.message.trim()) e.message = "Please write your message";
   return e;
@@ -28,7 +28,8 @@ export default function ContactPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    const cleaned = name === "phone" ? value.replace(/\D/g, "").slice(0, 15) : value;
+    setForm((prev) => ({ ...prev, [name]: cleaned }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 

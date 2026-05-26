@@ -8,11 +8,11 @@ import { fadeInUp, staggerContainer } from "@/lib/animations";
 
 export default function BlogPage() {
   const dispatch = useDispatch();
-  const { list: blogs, status } = useSelector((s) => s.blog);
+  const { list: blogs, loading } = useSelector((s) => s.blog);
 
   useEffect(() => {
-    if (status === "idle") dispatch(fetchBlogs());
-  }, [status, dispatch]);
+    if (!loading) dispatch(fetchBlogs());
+  }, []);
 
   return (
     <main>

@@ -1,24 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
-export const submitContact = createAsyncThunk(
-  'contact/submit',
-  async (formData, { rejectWithValue }) => {
-    try {
-      const res = await fetch(`${API_BASE}/api/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (!res.ok) return rejectWithValue(data.message || 'Submission failed. Please try again.');
-      return data;
-    } catch {
-      return rejectWithValue('Network error. Please check your connection and try again.');
-    }
-  }
-);
+import { createSlice } from '@reduxjs/toolkit';
+import { Api } from '@/lib/api';
 
 const contactSlice = createSlice({
   name: 'contact',
@@ -27,27 +8,37 @@ const contactSlice = createSlice({
     error: null,
   },
   reducers: {
+    setStatus(state, action) { state.status = action.payload; },
+    setError(state, action) { state.error = action.payload; },
     resetContact(state) {
       state.status = 'idle';
       state.error = null;
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(submitContact.pending, (state) => {
-        state.status = 'loading';
-        state.error = null;
-      })
-      .addCase(submitContact.fulfilled, (state) => {
-        state.status = 'success';
-        state.error = null;
-      })
-      .addCase(submitContact.rejected, (state, action) => {
-        state.status = 'error';
-        state.error = action.payload;
-      });
-  },
 });
 
-export const { resetContact } = contactSlice.actions;
+export const { setStatus, setError, resetContact } = contactSlice.actions;
+
+export const submitContact = (formData, router) => async (dispatch) => {
+  try {
+    dispatch(setStatus('loading'));
+    dispatch(setError(null));
+
+    const res = await Api('post', 'contact', formData, router);
+
+    if (res?.status) {
+      dispatch(setStatus('success'));
+    } else {
+      dispatch(setStatus('error'));
+      dispatch(setError(res?.message || 'Submission failed. Please try again.'));
+    }
+
+    return { success: res?.status, data: res?.data };
+  } catch (err) {
+    dispatch(setStatus('error'));
+    dispatch(setError('Network error. Please check your connection and try again.'));
+    throw err;
+  }
+};
+
 export default contactSlice.reducer;
