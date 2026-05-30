@@ -20,8 +20,8 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="fixed top-0 left-0 w-full z-50 transition-all duration-300"
       style={{
-        background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(0,0,0,0.25)",
-        backdropFilter: "blur(8px)",
+        background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(0,0,0,0)",
+        backdropFilter: "blur(0px)",
         boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.1)" : "none",
       }}
     >
