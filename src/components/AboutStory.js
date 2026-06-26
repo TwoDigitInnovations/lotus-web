@@ -1,9 +1,12 @@
-import Image from "next/image";
 import { motion } from "framer-motion";
-import { aboutStory } from "@/data/aboutData";
+import { aboutStory as fallback } from "@/data/aboutData";
 import { fadeInLeft, fadeInRight } from "@/lib/animations";
 
-export default function AboutStory() {
+export default function AboutStory({ data }) {
+  const imageSrc = data?.image || fallback.image;
+  const description = data?.description || fallback.description;
+  const highlights = data?.highlights || [];
+
   return (
     <section className="py-10 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
@@ -19,7 +22,7 @@ export default function AboutStory() {
             whileHover={{ scale: 1.01 }}
             transition={{ duration: 0.4 }}
           >
-            <Image src={aboutStory.image} alt="Our Story" fill sizes="(max-width: 768px) 100vw, 60vw" className="object-cover" />
+            <img src={imageSrc} alt="Our Story" className="absolute inset-0 w-full h-full object-cover" />
           </motion.div>
 
           {/* Right: Blue card */}
@@ -31,13 +34,21 @@ export default function AboutStory() {
             viewport={{ once: true, margin: "-60px" }}
           >
             <motion.div
-              className="rounded-2xl p-8 w-full h-full flex items-center"
+              className="rounded-2xl p-8 w-full h-full flex flex-col justify-center gap-4"
               style={{ background: "#078DD4", boxShadow: "0 20px 50px rgba(27,157,226,0.35)" }}
               whileHover={{ boxShadow: "0 28px 60px rgba(27,157,226,0.5)" }}
             >
-              <p className="text-white text-sm leading-relaxed">
-                {aboutStory.description}
-              </p>
+              <p className="text-white text-sm leading-relaxed">{description}</p>
+              {highlights.length > 0 && (
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/20">
+                  {highlights.map((h, i) => (
+                    <div key={i} className="text-center">
+                      <p className="text-white text-2xl font-bold">{h.value}</p>
+                      <p className="text-white/80 text-xs mt-0.5">{h.label}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </motion.div>
           </motion.div>
         </div>

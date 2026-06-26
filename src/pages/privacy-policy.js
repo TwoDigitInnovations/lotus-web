@@ -1,7 +1,10 @@
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
+import axios from "axios";
+
+const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
 
 const sections = [
   {
@@ -63,6 +66,15 @@ const sections = [
 ];
 
 export default function PrivacyPolicy() {
+  const [dynamicContent, setDynamicContent] = useState(null);
+
+  useEffect(() => {
+    axios.get(`${API}site-settings`).then((res) => {
+      const c = res.data?.data?.privacyPolicy;
+      if (c) setDynamicContent(c);
+    }).catch(() => {});
+  }, []);
+
   return (
     <main className="bg-white min-h-screen">
       {/* Hero */}
@@ -73,13 +85,10 @@ export default function PrivacyPolicy() {
           animate={{ scale: 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
-          <Image
+          <img
             src="/images/modern-luxury-home-with-contemporary-architecture-wood-accents.png"
             alt="Privacy Policy"
-            fill
-            sizes="100vw"
-            className="object-cover"
-            priority
+            className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.58)" }} />
         </motion.div>
@@ -109,51 +118,28 @@ export default function PrivacyPolicy() {
       {/* Content */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-6">
-          {/* Intro */}
-          <motion.div
-            className="mb-12"
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <p className="text-gray-500 text-sm leading-relaxed mb-2">
-              <span className="font-semibold text-gray-700">Effective Date:</span> January 1, 2025
-            </p>
-            <motion.span
-              className="block h-0.5 mt-4 mb-6"
-              style={{ background: "#078DD4", width: 56 }}
-              initial={{ scaleX: 0, transformOrigin: "left" }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            />
-            <p className="text-gray-500 text-sm leading-relaxed">
-              At Lotusss, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or contact us regarding our real estate services. Please read this policy carefully. If you disagree with its terms, please discontinue use of our site.
-            </p>
+          <motion.div className="mb-6" variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            <motion.span className="block h-0.5 mb-6" style={{ background: "#078DD4", width: 56 }} initial={{ scaleX: 0, transformOrigin: "left" }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }} />
           </motion.div>
 
-          {/* Sections */}
-          <motion.div
-            className="flex flex-col gap-10"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {sections.map((section, i) => (
-              <motion.div key={i} variants={fadeInUp}>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">
-                  {i + 1}. {section.title}
-                </h2>
-                <div className="flex flex-col gap-3">
-                  {section.body.map((para, j) => (
-                    <p key={j} className="text-gray-500 text-sm leading-relaxed">{para}</p>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+          {dynamicContent ? (
+            <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+              <div className="text-gray-500 text-sm leading-relaxed whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: dynamicContent }} />
+            </motion.div>
+          ) : (
+            <motion.div className="flex flex-col gap-10" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+              {sections.map((section, i) => (
+                <motion.div key={i} variants={fadeInUp}>
+                  <h2 className="text-xl font-semibold text-gray-800 mb-3">{i + 1}. {section.title}</h2>
+                  <div className="flex flex-col gap-3">
+                    {section.body.map((para, j) => (
+                      <p key={j} className="text-gray-500 text-sm leading-relaxed">{para}</p>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
 
           {/* Back link */}
           <motion.div

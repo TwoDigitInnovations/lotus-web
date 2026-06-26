@@ -1,23 +1,183 @@
 import { motion } from "framer-motion";
-import { commitments } from "@/data/aboutData";
+import { commitments as fallback } from "@/data/aboutData";
 import { fadeInUp, scaleInBounce, staggerContainer } from "@/lib/animations";
 
-const icons = {
-  star: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>,
-  person: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" /><path d="M16 11l1.5 1.5L20 10" /></svg>,
-  clock: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>,
-  trophy: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M8 21h8M12 21v-4M7 4H4a2 2 0 0 0-2 2v2a4 4 0 0 0 4 4M17 4h3a2 2 0 0 1 2 2v2a4 4 0 0 1-4 4" /><path d="M7 4a5 5 0 0 0 10 0H7z" /></svg>,
+const iconMap = {
+  star: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  ),
+  Star: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  ),
+  person: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+      <path d="M16 11l1.5 1.5L20 10" />
+    </svg>
+  ),
+  Users: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+    </svg>
+  ),
+  clock: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  ),
+  Clock: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  ),
+  trophy: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M8 21h8M12 21v-4M7 4H4a2 2 0 0 0-2 2v2a4 4 0 0 0 4 4M17 4h3a2 2 0 0 1 2 2v2a4 4 0 0 1-4 4" />
+      <path d="M7 4a5 5 0 0 0 10 0H7z" />
+    </svg>
+  ),
+  Award: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="8" r="6" />
+      <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+    </svg>
+  ),
+  Heart: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+  ),
 };
 
-export default function Commitments() {
+const DefaultIcon = () => (
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="1.6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 8v4l3 3" />
+  </svg>
+);
+
+export default function Commitments({ data }) {
+  const items = Array.isArray(data) && data.length > 0 ? data : fallback;
+
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-6">
-        <motion.div className="text-center mb-10" variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+        <motion.div
+          className="text-center mb-10"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           <h2 className="text-2xl md:text-4xl font-normal text-gray-800 mb-3">
             We are committed to
           </h2>
-          <motion.span className="inline-block h-0.5" style={{ background: "#078DD4" }} initial={{ width: 0 }} whileInView={{ width: 56 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }} />
+          <motion.span
+            className="inline-block h-0.5"
+            style={{ background: "#078DD4" }}
+            initial={{ width: 0 }}
+            whileInView={{ width: 56 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          />
         </motion.div>
 
         <motion.div
@@ -27,13 +187,20 @@ export default function Commitments() {
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
         >
-          {commitments.map((item) => (
+          {items.map((item, i) => (
             <motion.div
-              key={item.id}
+              key={item.id || i}
               variants={scaleInBounce}
               className="flex flex-col items-center justify-center gap-4 rounded-2xl py-10 px-4 text-center cursor-pointer"
-              style={{ background: "#078DD4", boxShadow: "0 4px 16px rgba(27,157,226,0.25)" }}
-              whileHover={{ y: -8, scale: 1.04, boxShadow: "0 16px 40px rgba(27,157,226,0.45)" }}
+              style={{
+                background: "#078DD4",
+                boxShadow: "0 4px 16px rgba(27,157,226,0.25)",
+              }}
+              whileHover={{
+                y: -8,
+                scale: 1.04,
+                boxShadow: "0 16px 40px rgba(27,157,226,0.45)",
+              }}
               transition={{ duration: 0.3 }}
             >
               <motion.div
@@ -41,11 +208,16 @@ export default function Commitments() {
                 whileHover={{ rotate: [0, -10, 10, 0] }}
                 transition={{ duration: 0.4 }}
               >
-                {icons[item.icon]}
+                {iconMap[item.icon] || <DefaultIcon />}
               </motion.div>
               <p className="text-white text-md font-medium leading-snug">
-                {item.label}
+                {item.title || item.label}
               </p>
+              {item.description && (
+                <p className="text-white/80 text-xs leading-relaxed">
+                  {item.description}
+                </p>
+              )}
             </motion.div>
           ))}
         </motion.div>

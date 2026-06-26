@@ -1,41 +1,46 @@
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { whyChooseUs } from "@/data/siteData";
+import { whyChooseUs as fallback } from "@/data/siteData";
 import { fadeInUp, scaleInBounce, staggerContainer } from "@/lib/animations";
+import axios from "axios";
 
-const icons = {
-  shield: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" />
-    </svg>
-  ),
-  location: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
-    </svg>
-  ),
-  payment: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="1" y="4" width="22" height="16" rx="2" ry="2" /><line x1="1" y1="10" x2="23" y2="10" />
-    </svg>
-  ),
+const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
+
+const DefaultIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" />
+  </svg>
+);
+
+const iconMap = {
+  shield: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>,
+  Shield: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>,
+  location: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>,
+  MapPin: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>,
+  payment: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2" /><line x1="1" y1="10" x2="23" y2="10" /></svg>,
+  CreditCard: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2" /><line x1="1" y1="10" x2="23" y2="10" /></svg>,
 };
 
 export default function WhyChooseUs() {
+  const [heading, setHeading] = useState("Why Choose Us?");
+  const [features, setFeatures] = useState(fallback);
+
+  useEffect(() => {
+    axios.get(`${API}site-settings`).then((res) => {
+      const wcu = res.data?.data?.whyChooseUs;
+      if (wcu) {
+        if (wcu.heading) setHeading(wcu.heading);
+        if (Array.isArray(wcu.features) && wcu.features.length > 0) setFeatures(wcu.features);
+      }
+    }).catch(() => {});
+  }, []);
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Heading */}
-        <motion.div
-          className="text-center mb-14"
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-        >
-          <h2 className="text-4xl font-normal text-gray-800 mb-3">
-            Why Choose Us?
-          </h2>
+        <motion.div className="text-center mb-14" variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }}>
+          <h2 className="text-4xl font-normal text-gray-800 mb-3">{heading}</h2>
           <motion.span
             className="inline-block h-0.5"
             style={{ background: "#078DD4" }}
@@ -46,33 +51,18 @@ export default function WhyChooseUs() {
           />
         </motion.div>
 
-        {/* Cards */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-10"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-        >
-          {whyChooseUs.map((item) => (
-            <motion.div
-              key={item.id}
-              variants={fadeInUp}
-              className="flex flex-col group"
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.3 }}
-            >
+        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-10" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }}>
+          {features.map((item, i) => (
+            <motion.div key={item.id || i} variants={fadeInUp} className="flex flex-col group" whileHover={{ y: -6 }} transition={{ duration: 0.3 }}>
               <motion.div
                 className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
                 style={{ background: "#078DD4", boxShadow: "0 4px 14px rgba(27,157,226,0.3)" }}
                 variants={scaleInBounce}
                 whileHover={{ scale: 1.15, boxShadow: "0 8px 22px rgba(27,157,226,0.5)" }}
               >
-                {icons[item.icon]}
+                {iconMap[item.icon] || <DefaultIcon />}
               </motion.div>
-              <h3 className="text-xl font-normal text-gray-800 mb-3">
-                {item.title}
-              </h3>
+              <h3 className="text-xl font-normal text-gray-800 mb-3">{item.title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-5 flex-1">{item.description}</p>
               <Link href="/about">
                 <motion.span

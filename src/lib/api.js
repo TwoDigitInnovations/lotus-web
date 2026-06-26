@@ -2,6 +2,8 @@ import axios from "axios";
 
 const ConstantsUrl = "https://api.lotusssinfra.com/";
 
+// const ConstantsUrl = "http://localhost:8002/";
+
 function Api(method, url, data, router) {
   return new Promise(function (resolve, reject) {
     let token = "";

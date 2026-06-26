@@ -26,21 +26,19 @@ export default function PropertyTypes() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="relative">
           {/* Left Arrow */}
-          <motion.button
-            onClick={() => goTo(current - 1)}
-            className="absolute left-0 top-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center"
-            style={{
-              transform: "translateY(-50%) translateX(-50%)",
-              background: "#078DD4",
-              boxShadow: "0 4px 14px rgba(27,157,226,0.45)",
-            }}
-            whileHover={{ scale: 1.12, boxShadow: "0 6px 20px rgba(27,157,226,0.6)" }}
-            whileTap={{ scale: 0.88 }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M10 3L5 8l5 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.button>
+          <div className="absolute -left-5 top-1/2 -translate-y-1/2 z-10">
+            <motion.button
+              onClick={() => goTo(current - 1)}
+              className="w-10 h-10 rounded-full flex items-center justify-center"
+              style={{ background: "#078DD4", boxShadow: "0 4px 14px rgba(27,157,226,0.45)" }}
+              whileHover={{ scale: 1.12, boxShadow: "0 6px 20px rgba(27,157,226,0.6)" }}
+              whileTap={{ scale: 0.88 }}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M10 3L5 8l5 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </motion.button>
+          </div>
 
           {/* Desktop: 2 cards side by side */}
           <div className="hidden md:block" style={{ overflow: "hidden" }}>
@@ -81,21 +79,19 @@ export default function PropertyTypes() {
           </div>
 
           {/* Right Arrow */}
-          <motion.button
-            onClick={() => goTo(current + 1)}
-            className="absolute right-0 top-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center"
-            style={{
-              transform: "translateY(-50%) translateX(50%)",
-              background: "#078DD4",
-              boxShadow: "0 4px 14px rgba(27,157,226,0.45)",
-            }}
-            whileHover={{ scale: 1.12, boxShadow: "0 6px 20px rgba(27,157,226,0.6)" }}
-            whileTap={{ scale: 0.88 }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M6 3l5 5-5 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.button>
+          <div className="absolute -right-5 top-1/2 -translate-y-1/2 z-10">
+            <motion.button
+              onClick={() => goTo(current + 1)}
+              className="w-10 h-10 rounded-full flex items-center justify-center"
+              style={{ background: "#078DD4", boxShadow: "0 4px 14px rgba(27,157,226,0.45)" }}
+              whileHover={{ scale: 1.12, boxShadow: "0 6px 20px rgba(27,157,226,0.6)" }}
+              whileTap={{ scale: 0.88 }}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3l5 5-5 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </motion.button>
+          </div>
         </div>
       </div>
 

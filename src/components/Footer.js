@@ -1,7 +1,11 @@
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { footerData } from "@/data/siteData";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
+import axios from "axios";
+
+const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
 
 const TwitterIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>;
 const InstagramIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" /></svg>;
@@ -11,7 +15,26 @@ const WhatsAppIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill=
 const socialIconMap = { twitter: <TwitterIcon />, instagram: <InstagramIcon />, facebook: <FacebookIcon /> };
 
 export default function Footer() {
-  const { description, menuLinks, contact, socialLinks, socialTextLinks, whatsapp } = footerData;
+  const [apiFooter, setApiFooter] = useState(null);
+
+  useEffect(() => {
+    axios.get(`${API}site-settings`).then((res) => {
+      const f = res.data?.data?.footer;
+      if (f) setApiFooter(f);
+    }).catch(() => {});
+  }, []);
+
+  const description = apiFooter?.description || footerData.description;
+  const phone = apiFooter?.phone || footerData.contact.phone;
+  const email = apiFooter?.email || footerData.contact.website;
+  const address = apiFooter?.address || footerData.contact.address;
+  const whatsappNum = apiFooter?.whatsapp || footerData.whatsapp;
+
+  const dynamicSocialLinks = apiFooter?.socialLinks
+    ? Object.entries(apiFooter.socialLinks)
+        .filter(([, href]) => href)
+        .map(([platform, href]) => ({ platform, href, label: platform }))
+    : footerData.socialLinks;
 
   return (
     <footer className="relative">
@@ -28,16 +51,13 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
             {/* Logo */}
             <motion.div variants={fadeInUp}>
-              <motion.div
-                className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
-                style={{ background: "#078DD4", boxShadow: "0 4px 16px rgba(27,157,226,0.35)" }}
+              <motion.img
+                src="/images/logo.png"
+                alt="Lotusss Logo"
+                className="w-16 h-16 rounded-full object-cover mb-4"
+                style={{ boxShadow: "0 4px 16px rgba(27,157,226,0.35)" }}
                 whileHover={{ scale: 1.08, boxShadow: "0 8px 24px rgba(27,157,226,0.5)" }}
-              >
-                <span className="text-[11px] font-bold tracking-widest text-center leading-tight">
-                  <span className="text-white">LOTUS</span>
-                  <span style={{ color: "#d4a017" }}>SS</span>
-                </span>
-              </motion.div>
+              />
               <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
             </motion.div>
 
@@ -45,7 +65,7 @@ export default function Footer() {
             <motion.div variants={fadeInUp}>
               <h4 className="text-gray-700 font-semibold text-base mb-4">Menu</h4>
               <ul className="flex flex-col gap-2.5">
-                {menuLinks.map((link) => (
+                {footerData.menuLinks.map((link) => (
                   <li key={link.label}>
                     <motion.span whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 300 }} className="inline-block">
                       <Link href={link.href} className="text-gray-500 text-sm hover:text-gray-700 transition">{link.label}</Link>
@@ -59,9 +79,9 @@ export default function Footer() {
             <motion.div variants={fadeInUp}>
               <h4 className="text-gray-700 font-semibold text-base mb-4">Contact Us</h4>
               <ul className="flex flex-col gap-2.5">
-                <li className="text-gray-500 text-sm">{contact.phone}</li>
-                <li className="text-gray-500 text-sm">{contact.website}</li>
-                <li className="text-gray-500 text-sm">{contact.address}</li>
+                {phone && <li className="text-gray-500 text-sm">{phone}</li>}
+                {email && <li className="text-gray-500 text-sm">{email}</li>}
+                {address && <li className="text-gray-500 text-sm">{address}</li>}
               </ul>
             </motion.div>
 
@@ -69,7 +89,7 @@ export default function Footer() {
             <motion.div variants={fadeInUp}>
               <h4 className="text-gray-700 font-semibold text-base mb-4">Social Links</h4>
               <ul className="flex flex-col gap-2.5 mb-5">
-                {socialTextLinks.map((link) => (
+                {footerData.socialTextLinks.map((link) => (
                   <li key={link.label}>
                     <motion.span whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 300 }} className="inline-block">
                       <Link href={link.href} className="text-gray-500 text-sm hover:text-gray-700 transition">{link.label}</Link>
@@ -78,9 +98,11 @@ export default function Footer() {
                 ))}
               </ul>
               <div className="flex items-center gap-3">
-                {socialLinks.map((s) => (
+                {dynamicSocialLinks.map((s) => (
                   <motion.div key={s.platform} whileHover={{ scale: 1.2, y: -2 }} whileTap={{ scale: 0.9 }}>
-                    <Link href={s.href} aria-label={s.label} className="text-gray-500 hover:text-gray-700 transition">{socialIconMap[s.platform]}</Link>
+                    <Link href={s.href} aria-label={s.label} className="text-gray-500 hover:text-gray-700 transition">
+                      {socialIconMap[s.platform] || null}
+                    </Link>
                   </motion.div>
                 ))}
               </div>
@@ -91,7 +113,7 @@ export default function Footer() {
 
       {/* WhatsApp floating button */}
       <motion.a
-        href={`https://wa.me/${whatsapp}`}
+        href={`https://wa.me/${whatsappNum}`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"

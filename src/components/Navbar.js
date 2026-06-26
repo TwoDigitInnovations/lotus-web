@@ -25,19 +25,16 @@ export default function Navbar() {
         boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.1)" : "none",
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between ">
         {/* Logo */}
         <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.95 }}>
           <Link href="/" className="flex items-center gap-2">
-            <div
-              className="w-12 h-12 rounded-full flex items-center justify-center text-center leading-tight"
-              style={{ background: "#078DD4", boxShadow: "0 4px 12px rgba(27,157,226,0.4)" }}
-            >
-              <span className="text-[10px] font-bold tracking-widest">
-                <span className="text-white">LOTUS</span>
-                <span style={{ color: "#d4a017" }}>SS</span>
-              </span>
-            </div>
+            <img
+              src="/images/logo.png"
+              alt="Lotusss Logo"
+              className="w-20 h-20 rounded-full object-contain"
+              // style={{ boxShadow: "0 4px 12px rgba(27,157,226,0.4)" }}
+            />
           </Link>
         </motion.div>
 
