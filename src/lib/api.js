@@ -1,6 +1,43 @@
 import axios from "axios";
 
-const ConstantsUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
+let rawBase = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
+
+// Enforce HTTPS in production — prevent accidental plaintext traffic
+if (
+  typeof window !== "undefined" &&
+  window.location.protocol === "https:" &&
+  rawBase.startsWith("http://")
+) {
+  rawBase = rawBase.replace("http://", "https://");
+}
+
+const ConstantsUrl = rawBase.endsWith("/") ? rawBase : rawBase + "/";
+const TIMEOUT_MS = 15000;
+
+function sanitizeError(err) {
+  if (!err.response) return { message: "Network error. Please check your connection." };
+  const status = err.response.status;
+  const serverMsg = err.response.data?.message;
+  // Only forward the message string — never the full response body (may contain stack traces / DB info)
+  return { status, message: serverMsg || "Something went wrong. Please try again." };
+}
+
+function handleAuthError(status, router) {
+  if (typeof window === "undefined") return;
+  if (status === 401 || status === 403) {
+    localStorage.removeItem("userDetail");
+    localStorage.removeItem("token");
+    if (status === 401) router?.push("/login");
+  }
+}
+
+function buildUrl(path) {
+  try {
+    return new URL(path, ConstantsUrl).href;
+  } catch {
+    return ConstantsUrl + path;
+  }
+}
 
 function Api(method, url, data, router) {
   return new Promise(function (resolve, reject) {
@@ -11,26 +48,15 @@ function Api(method, url, data, router) {
 
     axios({
       method,
-      url: ConstantsUrl + url,
+      url: buildUrl(url),
       data,
+      timeout: TIMEOUT_MS,
       headers: { Authorization: `Bearer ${token}` },
     }).then(
-      (res) => {
-        resolve(res.data);
-      },
+      (res) => resolve(res.data),
       (err) => {
-        if (err.response) {
-          if (err?.response?.status === 401) {
-            if (typeof window !== "undefined") {
-              localStorage.removeItem("userDetail");
-              localStorage.removeItem("token"); 
-              router?.push("/login");
-            }
-          }
-          reject(err.response.data);
-        } else {
-          reject(err);
-        }
+        handleAuthError(err.response?.status, router);
+        reject(sanitizeError(err));
       },
     );
   });
@@ -45,29 +71,18 @@ function ApiFormData(method, url, data, router) {
 
     axios({
       method,
-      url: ConstantsUrl + url,
+      url: buildUrl(url),
       data,
+      timeout: TIMEOUT_MS,
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     }).then(
-      (res) => {
-        resolve(res.data);
-      },
+      (res) => resolve(res.data),
       (err) => {
-        if (err.response) {
-          if (err?.response?.status === 401) {
-            if (typeof window !== "undefined") {
-              localStorage.removeItem("userDetail");
-              localStorage.removeItem("token");
-              router?.push("/login");
-            }
-          }
-          reject(err.response.data);
-        } else {
-          reject(err);
-        }
+        handleAuthError(err.response?.status, router);
+        reject(sanitizeError(err));
       },
     );
   });
