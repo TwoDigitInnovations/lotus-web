@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { whyChooseUs as fallback } from "@/data/siteData";
+import { WHY_CHOOSE_US as fallback } from "@/data/fallback";
 import { fadeInUp, scaleInBounce, staggerContainer } from "@/lib/animations";
 import axios from "axios";
 
@@ -28,7 +28,7 @@ export default function WhyChooseUs() {
 
   useEffect(() => {
     axios.get(`${API}site-settings`).then((res) => {
-      const wcu = res.data?.data?.whyChooseUs;
+      const wcu = res.data?.data?.data?.whyChooseUs;
       if (wcu) {
         if (wcu.heading) setHeading(wcu.heading);
         if (Array.isArray(wcu.features) && wcu.features.length > 0) setFeatures(wcu.features);
@@ -63,7 +63,10 @@ export default function WhyChooseUs() {
                 {iconMap[item.icon] || <DefaultIcon />}
               </motion.div>
               <h3 className="text-xl font-normal text-gray-800 mb-3">{item.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-5 flex-1">{item.description}</p>
+              {item.description?.trim().startsWith("<")
+                ? <div className="rich-html text-gray-400 text-sm leading-relaxed mb-5 flex-1" dangerouslySetInnerHTML={{ __html: item.description }} />
+                : <p className="text-gray-400 text-sm leading-relaxed mb-5 flex-1">{item.description}</p>
+              }
               <Link href="/about">
                 <motion.span
                   className="inline-flex items-center gap-1 text-sm font-semibold tracking-widest cursor-pointer"

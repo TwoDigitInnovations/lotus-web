@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { footerData } from "@/data/siteData";
+import { FOOTER as footerData } from "@/data/fallback";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import axios from "axios";
 
@@ -19,14 +19,14 @@ export default function Footer() {
 
   useEffect(() => {
     axios.get(`${API}site-settings`).then((res) => {
-      const f = res.data?.data?.footer;
+      const f = res.data?.data?.data?.footer;
       if (f) setApiFooter(f);
     }).catch(() => {});
   }, []);
 
   const description = apiFooter?.description || footerData.description;
   const phone = apiFooter?.phone || footerData.contact.phone;
-  const email = apiFooter?.email || footerData.contact.website;
+  const email = apiFooter?.email || footerData.contact.email;
   const address = apiFooter?.address || footerData.contact.address;
   const whatsappNum = apiFooter?.whatsapp || footerData.whatsapp;
 

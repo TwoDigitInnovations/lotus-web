@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { leaders as fallback } from "@/data/aboutData";
+import { LEADERS as fallback } from "@/data/fallback";
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
 
 export default function Leaders({ data }) {
@@ -39,7 +39,10 @@ function LeaderCard({ leader, index }) {
       <motion.div className="flex-1 flex flex-col gap-3" variants={isImageRight ? fadeInLeft : fadeInRight}>
         <h3 className="text-4xl font-semibold" style={{ color: "#078DD4" }}>{leader.name}</h3>
         <p className="text-2xl font-semibold" style={{ color: "#078DD4" }}>{leader.role}</p>
-        <p className="text-gray-500 text-xl leading-relaxed mt-1">{leader.description}</p>
+        {leader.description?.trim().startsWith("<")
+          ? <div className="rich-html text-gray-500 text-xl leading-relaxed mt-1" dangerouslySetInnerHTML={{ __html: leader.description }} />
+          : <p className="text-gray-500 text-xl leading-relaxed mt-1">{leader.description}</p>
+        }
       </motion.div>
 
       {/* Image */}

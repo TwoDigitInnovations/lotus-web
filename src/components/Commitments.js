@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { commitments as fallback } from "@/data/aboutData";
+import { COMMITMENTS as fallback } from "@/data/fallback";
 import { fadeInUp, scaleInBounce, staggerContainer } from "@/lib/animations";
 
 const iconMap = {
@@ -214,9 +214,9 @@ export default function Commitments({ data }) {
                 {item.title || item.label}
               </p>
               {item.description && (
-                <p className="text-white/80 text-xs leading-relaxed">
-                  {item.description}
-                </p>
+                item.description.trim().startsWith("<")
+                  ? <div className="rich-html-white text-xs leading-relaxed" dangerouslySetInnerHTML={{ __html: item.description }} />
+                  : <p className="text-white/80 text-xs leading-relaxed">{item.description}</p>
               )}
             </motion.div>
           ))}

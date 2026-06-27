@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { galleryPhotos, galleryVideos } from '@/data/siteData';
+import { GALLERY_PHOTOS as galleryPhotos, GALLERY_VIDEOS as galleryVideos } from '@/data/fallback';
 import { Api } from '@/lib/api';
 
 function normalize(item) {

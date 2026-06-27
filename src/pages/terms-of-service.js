@@ -76,7 +76,7 @@ export default function TermsOfService() {
 
   useEffect(() => {
     axios.get(`${API}site-settings`).then((res) => {
-      const c = res.data?.data?.termsOfService;
+      const c = res.data?.data?.data?.termsOfService;
       if (c) setDynamicContent(c);
     }).catch(() => {});
   }, []);
@@ -100,8 +100,8 @@ export default function TermsOfService() {
         </motion.div>
         <div className="relative z-10 h-full flex flex-col items-center justify-center gap-3">
           <motion.h1
-            className="text-white text-4xl md:text-5xl font-semibold"
-            style={{ letterSpacing: "0.2em" }}
+            className="text-white text-3xl md:text-5xl font-semibold px-4 text-center"
+            style={{ letterSpacing: "0.15em" }}
             initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.7, delay: 0.3 }}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { welcomeContent } from "@/data/siteData";
+import { WELCOME as welcomeContent } from "@/data/fallback";
 import { fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
 import axios from "axios";
 
@@ -11,16 +11,19 @@ export default function WelcomeSection() {
 
   useEffect(() => {
     axios.get(`${API}site-settings`).then((res) => {
-      const w = res.data?.data?.welcome;
+      const w = res.data?.data?.data?.welcome;
       if (w) setData(w);
     }).catch(() => {});
   }, []);
 
   const title = data?.heading || welcomeContent.title;
+  const subheading = data?.subheading || "";
   const description = data?.description || welcomeContent.description;
-  const images = (data?.images?.length >= 3)
+  const isHtml = description?.trim().startsWith("<");
+  const apiImages = Array.isArray(data?.images) && data.images.length > 0
     ? data.images.map((src, i) => ({ src, alt: `Image ${i + 1}` }))
-    : welcomeContent.images;
+    : null;
+  const images = apiImages || welcomeContent.images;
 
   return (
     <section id="about" className="py-20 bg-white">
@@ -35,7 +38,10 @@ export default function WelcomeSection() {
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
           >
-            <h2 className="text-4xl font-normal text-gray-800 mb-3">{title}</h2>
+            <h2 className="text-4xl font-normal text-gray-800 mb-1">{title}</h2>
+            {subheading && (
+              <p className="text-gray-500 text-base mb-3">{subheading}</p>
+            )}
             <motion.span
               className="block h-0.5 mb-6"
               style={{ background: "#078DD4", width: "106px" }}
@@ -44,7 +50,10 @@ export default function WelcomeSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             />
-            <p className="text-gray-500 text-base leading-relaxed">{description}</p>
+            {isHtml
+              ? <div className="rich-html text-gray-500 text-base leading-relaxed" dangerouslySetInnerHTML={{ __html: description }} />
+              : <p className="text-gray-500 text-base leading-relaxed">{description}</p>
+            }
           </motion.div>
 
           {/* Right: Images */}

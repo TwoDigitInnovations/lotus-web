@@ -19,10 +19,10 @@ export default function Gallery() {
   }, [fetched, loading, dispatch]);
 
   const items = tab === "photos" ? photos : videos;
-  const visible = items.slice(startIndex, startIndex + 2);
+  const visible = items.slice(startIndex, startIndex + 4);
 
-  const handlePrev = () => setStartIndex((prev) => Math.max(0, prev - 2));
-  const handleNext = () => setStartIndex((prev) => prev + 2 < items.length ? prev + 2 : prev);
+  const handlePrev = () => setStartIndex((prev) => Math.max(0, prev - 4));
+  const handleNext = () => setStartIndex((prev) => prev + 4 < items.length ? prev + 4 : prev);
   const handleTabChange = (t) => { setTab(t); setStartIndex(0); };
 
   return (
@@ -48,7 +48,7 @@ export default function Gallery() {
 
         {/* Nav Buttons */}
         <div className="flex gap-2 mb-5">
-          {[{ fn: handlePrev, dis: startIndex === 0, path: "M9 2L4 7l5 5" }, { fn: handleNext, dis: startIndex + 2 >= items.length, path: "M5 2l5 5-5 5" }].map(({ fn, dis, path }, i) => (
+          {[{ fn: handlePrev, dis: startIndex === 0, path: "M9 2L4 7l5 5" }, { fn: handleNext, dis: startIndex + 4 >= items.length, path: "M5 2l5 5-5 5" }].map(({ fn, dis, path }, i) => (
             <motion.button key={i} onClick={fn} disabled={dis} whileHover={!dis ? { scale: 1.12, boxShadow: "0 6px 18px rgba(27,157,226,0.45)" } : {}} whileTap={!dis ? { scale: 0.9 } : {}}
               className="w-9 h-9 rounded-lg flex items-center justify-center text-white disabled:opacity-40"
               style={{ background: "#078DD4", boxShadow: "0 3px 10px rgba(27,157,226,0.3)" }}

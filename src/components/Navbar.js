@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { navLinks } from "@/data/siteData";
+import { NAV_LINKS as navLinks } from "@/data/fallback";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

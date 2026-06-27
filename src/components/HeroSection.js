@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { heroSlides } from "@/data/siteData";
+import { HERO_SLIDES as heroSlides } from "@/data/fallback";
 import axios from "axios";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
@@ -12,7 +12,7 @@ export default function HeroSection() {
 
   useEffect(() => {
     axios.get(`${API}hero-banners`).then((res) => {
-      const data = res.data?.data;
+      const data = res.data?.data?.data;
       if (Array.isArray(data) && data.length > 0) setSlides(data);
     }).catch(() => {});
   }, []);

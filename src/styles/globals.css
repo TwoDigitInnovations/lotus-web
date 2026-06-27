@@ -16,10 +16,15 @@
   --color-brand-dark: #0670A8;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Inter', Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
 .section-underline {
@@ -33,6 +38,43 @@ body {
 .hero-overlay {
   background: linear-gradient(to right, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.2) 100%);
 }
+
+/* ─── Rich HTML content (blog, policy, dark backgrounds) ─────────── */
+.rich-html p { margin-bottom: 0.85rem; }
+.rich-html h1, .rich-html h2, .rich-html h3 {
+  color: #1e293b;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.rich-html h1 { font-size: 1.5rem; }
+.rich-html h2 { font-size: 1.25rem; }
+.rich-html h3 { font-size: 1.1rem; }
+.rich-html ul { list-style-type: disc; padding-left: 1.5rem; margin: 0.75rem 0; }
+.rich-html ol { list-style-type: decimal; padding-left: 1.5rem; margin: 0.75rem 0; }
+.rich-html li { margin-bottom: 0.3rem; }
+.rich-html strong { font-weight: 600; color: #374151; }
+.rich-html em { font-style: italic; }
+.rich-html a { color: #078DD4; text-decoration: underline; }
+.rich-html a:hover { color: #0670A8; }
+
+/* For rich HTML on coloured (blue) backgrounds — keeps text white */
+.rich-html-white p { color: rgba(255,255,255,0.9); margin-bottom: 0.75rem; }
+.rich-html-white h1, .rich-html-white h2, .rich-html-white h3 {
+  color: #ffffff;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+}
+.rich-html-white h1 { font-size: 1.3rem; }
+.rich-html-white h2 { font-size: 1.15rem; }
+.rich-html-white h3 { font-size: 1rem; }
+.rich-html-white ul { list-style-type: disc; padding-left: 1.5rem; margin: 0.5rem 0; }
+.rich-html-white ol { list-style-type: decimal; padding-left: 1.5rem; margin: 0.5rem 0; }
+.rich-html-white li { color: rgba(255,255,255,0.85); margin-bottom: 0.25rem; }
+.rich-html-white strong { color: #ffffff; font-weight: 700; }
+.rich-html-white em { font-style: italic; color: rgba(255,255,255,0.9); }
+.rich-html-white a { color: rgba(255,255,255,0.9); text-decoration: underline; }
 
 /* Smooth carousel transitions */
 .slide-enter {

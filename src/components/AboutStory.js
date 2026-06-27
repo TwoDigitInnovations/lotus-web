@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { aboutStory as fallback } from "@/data/aboutData";
+import { ABOUT_STORY as fallback } from "@/data/fallback";
 import { fadeInLeft, fadeInRight } from "@/lib/animations";
 
 export default function AboutStory({ data }) {
@@ -38,7 +38,10 @@ export default function AboutStory({ data }) {
               style={{ background: "#078DD4", boxShadow: "0 20px 50px rgba(27,157,226,0.35)" }}
               whileHover={{ boxShadow: "0 28px 60px rgba(27,157,226,0.5)" }}
             >
-              <p className="text-white text-sm leading-relaxed">{description}</p>
+              {description?.trim().startsWith("<")
+                ? <div className="rich-html-white text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: description }} />
+                : <p className="text-white text-sm leading-relaxed">{description}</p>
+              }
               {highlights.length > 0 && (
                 <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/20">
                   {highlights.map((h, i) => (

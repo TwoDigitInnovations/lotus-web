@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjectById, fetchProjects } from "@/store/slices/projectSlice";
-import { lotusssStats } from "@/data/siteData";
+import { STATS as lotusssStats } from "@/data/fallback";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import VideoModal from "@/components/VideoModal";
 

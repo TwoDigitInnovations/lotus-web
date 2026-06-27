@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { blogs as dummyBlogs } from '@/data/siteData';
+import { BLOGS as dummyBlogs } from '@/data/fallback';
 import { Api } from '@/lib/api';
 
 function normalize(item) {

@@ -1,25 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { propertyTypes } from "@/data/siteData";
+import { PROPERTY_TYPES as fallbackTypes } from "@/data/fallback";
+import axios from "axios";
 
-const total = propertyTypes.length;
+const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
 
 export default function PropertyTypes() {
+  const [types, setTypes] = useState(fallbackTypes);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+
+  useEffect(() => {
+    axios.get(`${API}property-types`).then((res) => {
+      const data = res.data?.data?.data;
+      if (Array.isArray(data) && data.length > 0) {
+        setTypes(data.map((t) => ({ id: t._id, label: t.label, image: t.image })));
+      }
+    }).catch(() => {});
+  }, []);
+
+  const total = types.length;
 
   const goTo = (next) => {
     setDirection(next > current ? 1 : -1);
     setCurrent((next + total) % total);
   };
 
-  // Desktop: show card at `current` and the one after it
-  const cardA = propertyTypes[current % total];
-  const cardB = propertyTypes[(current + 1) % total];
-
-  // Mobile: show only `current`
-  const mobileCard = propertyTypes[current % total];
+  const cardA = types[current % total];
+  const cardB = types[(current + 1) % total];
+  const mobileCard = types[current % total];
 
   return (
     <section className="py-16 bg-white">
@@ -97,7 +107,7 @@ export default function PropertyTypes() {
 
       {/* Dots */}
       <div className="flex justify-center gap-2 mt-6">
-        {propertyTypes.map((_, i) => (
+        {types.map((_, i) => (
           <motion.button
             key={i}
             onClick={() => goTo(i)}

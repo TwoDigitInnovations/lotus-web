@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const ConstantsUrl = "https://api.lotusssinfra.com/";
+// const ConstantsUrl = "https://api.lotusssinfra.com/";
 
-// const ConstantsUrl = "http://localhost:8002/";
+const ConstantsUrl = "http://localhost:8002/";
 
 function Api(method, url, data, router) {
   return new Promise(function (resolve, reject) {
@@ -25,7 +25,7 @@ function Api(method, url, data, router) {
           if (err?.response?.status === 401) {
             if (typeof window !== "undefined") {
               localStorage.removeItem("userDetail");
-              localStorage.removeItem("token");
+              localStorage.removeItem("token"); 
               router?.push("/login");
             }
           }

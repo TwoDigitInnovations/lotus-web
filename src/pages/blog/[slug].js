@@ -123,20 +123,30 @@ export default function BlogDetail() {
           transition={{ duration: 0.6, delay: 0.2 }}
         />
 
-        {/* Paragraphs */}
-        <div className="flex flex-col gap-6">
-          {blog.content.map((para, i) => (
-            <motion.p
-              key={i}
-              className="text-gray-600 text-base leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 * i }}
-            >
-              {para}
-            </motion.p>
-          ))}
-        </div>
+        {/* Paragraphs — supports both plain text array and single HTML string */}
+        {blog.content?.length === 1 && blog.content[0]?.trim().startsWith("<") ? (
+          <motion.div
+            className="rich-html text-gray-600 text-base leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: blog.content[0] }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          />
+        ) : (
+          <div className="flex flex-col gap-6">
+            {(blog.content || []).map((para, i) => (
+              <motion.p
+                key={i}
+                className="text-gray-600 text-base leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 * i }}
+              >
+                {para}
+              </motion.p>
+            ))}
+          </div>
+        )}
 
         {/* Related Blogs */}
         {related.length > 0 && (

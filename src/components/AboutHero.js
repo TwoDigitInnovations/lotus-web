@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { aboutHero as fallback } from "@/data/aboutData";
+import { ABOUT_HERO as fallback } from "@/data/fallback";
 
 export default function AboutHero({ data }) {
   const title = data?.heading || fallback.title;
   const subheading = data?.subheading || "";
-  const imageSrc = fallback.image;
+  const imageSrc = data?.image || fallback.image;
 
   return (
     <section className="relative w-full overflow-hidden" style={{ height: "320px" }}>
@@ -21,8 +21,8 @@ export default function AboutHero({ data }) {
 
       <div className="relative z-10 h-full flex flex-col items-center justify-center gap-3">
         <motion.h1
-          className="text-white text-4xl md:text-5xl font-semibold"
-          style={{ letterSpacing: "0.2em" }}
+          className="text-white text-3xl md:text-5xl font-semibold px-4 text-center"
+          style={{ letterSpacing: "0.15em" }}
           initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.7, delay: 0.3 }}

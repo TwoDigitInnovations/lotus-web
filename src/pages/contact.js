@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { submitContact, resetContact } from "@/store/slices/contactSlice";
-import { footerData } from "@/data/siteData";
+import { FOOTER as footerData } from "@/data/fallback";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
 const EMPTY = { name: "", email: "", phone: "", subject: "", message: "" };
@@ -106,8 +106,8 @@ export default function ContactPage() {
         </motion.div>
         <div className="relative z-10 h-full flex flex-col items-center justify-center gap-3">
           <motion.h1
-            className="text-white text-4xl md:text-5xl font-semibold"
-            style={{ letterSpacing: "0.2em" }}
+            className="text-white text-3xl md:text-5xl font-semibold px-4 text-center"
+            style={{ letterSpacing: "0.15em" }}
             initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.7, delay: 0.3 }}
