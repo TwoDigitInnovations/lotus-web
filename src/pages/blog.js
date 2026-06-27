@@ -2,20 +2,35 @@ import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "@/store/slices/blogSlice";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
+
+const FALLBACK_BANNER = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
 
 export default function BlogPage() {
   const dispatch = useDispatch();
   const { list: blogs, loading } = useSelector((s) => s.blog);
+  const { pageBanners, fetched: settingsFetched } = useSelector((s) => s.siteSettings);
+  const bannerSrc = pageBanners?.blog || FALLBACK_BANNER;
 
   useEffect(() => {
     if (!loading) dispatch(fetchBlogs());
   }, []);
 
+  useEffect(() => {
+    if (!settingsFetched) dispatch(fetchSiteSettings());
+  }, [settingsFetched, dispatch]);
+
   return (
     <main>
+      <SEO
+        title="Blog"
+        description="Read the latest insights on Noida real estate — market trends, investment tips, project updates, home buying guides and more from Lotusss Real Estate."
+        url="/blog"
+      />
       {/* Hero */}
       <section className="relative w-full overflow-hidden" style={{ height: "320px" }}>
         <motion.div
@@ -25,7 +40,7 @@ export default function BlogPage() {
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
           <Image
-            src="/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png"
+            src={bannerSrc}
             alt="Blog"
             fill
             sizes="100vw"

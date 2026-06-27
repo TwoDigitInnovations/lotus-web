@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { submitContact, resetContact } from "@/store/slices/contactSlice";
 import { fadeInLeft, fadeInRight, fadeInUp, staggerContainer } from "@/lib/animations";
 
+const FALLBACK_IMG = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
+
 const EMPTY = { name: "", phone: "", subject: "", message: "" };
 
 function validate(form) {
@@ -19,6 +21,9 @@ function validate(form) {
 export default function ContactSection() {
   const dispatch = useDispatch();
   const { status, error } = useSelector((s) => s.contact);
+  const { sectionHeadings, contactSectionImage } = useSelector((s) => s.siteSettings);
+  const heading = sectionHeadings?.contactSection || "Partner With Us";
+  const sectionImg = contactSectionImage || FALLBACK_IMG;
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
 
@@ -58,7 +63,7 @@ export default function ContactSection() {
             viewport={{ once: true, margin: "-60px" }}
           >
             <h2 className="text-white text-3xl font-normal mb-2">
-              Partner With Us
+              {heading}
             </h2>
             <span className="block w-12 h-0.5 bg-white/40 mb-7" />
 
@@ -190,8 +195,8 @@ export default function ContactSection() {
             transition={{ duration: 0.4 }}
           >
             <Image
-              src="/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png"
-              alt="Noida city aerial view"
+              src={sectionImg}
+              alt="Contact us"
               fill
               sizes="(max-width: 1024px) 100vw, 55vw"
               className="object-cover"

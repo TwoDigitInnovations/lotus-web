@@ -4,12 +4,15 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGallery } from "@/store/slices/gallerySlice";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import VideoModal from "@/components/VideoModal";
 
 export default function Gallery() {
   const dispatch = useDispatch();
   const { photos, videos, loading, fetched } = useSelector((s) => s.gallery);
+  const { sectionHeadings, fetched: settingsFetched } = useSelector((s) => s.siteSettings);
+  const heading = sectionHeadings?.gallery || "Gallery";
   const [tab, setTab] = useState("photos");
   const [startIndex, setStartIndex] = useState(0);
   const [activeVideo, setActiveVideo] = useState(null);
@@ -17,6 +20,10 @@ export default function Gallery() {
   useEffect(() => {
     if (!fetched && !loading) dispatch(fetchGallery());
   }, [fetched, loading, dispatch]);
+
+  useEffect(() => {
+    if (!settingsFetched) dispatch(fetchSiteSettings());
+  }, [settingsFetched, dispatch]);
 
   const items = tab === "photos" ? photos : videos;
   const visible = items.slice(startIndex, startIndex + 4);
@@ -30,7 +37,7 @@ export default function Gallery() {
       <div className="max-w-7xl mx-auto px-6">
         {/* Heading */}
         <motion.div className="text-center mb-8" variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-          <h2 className="text-4xl font-normal text-gray-800 mb-3">Gallery</h2>
+          <h2 className="text-4xl font-normal text-gray-800 mb-3">{heading}</h2>
           <motion.span className="inline-block h-0.5" style={{ background: "#078DD4" }} initial={{ width: 0 }} whileInView={{ width: 56 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }} />
           <div className="flex items-center justify-center gap-4 mt-6">
             {["photos", "videos"].map((t, i) => (

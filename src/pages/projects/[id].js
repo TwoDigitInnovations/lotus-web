@@ -5,7 +5,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjectById, fetchProjects } from "@/store/slices/projectSlice";
-import { STATS as lotusssStats } from "@/data/fallback";
+import { STATS as statsFallback } from "@/data/fallback";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import VideoModal from "@/components/VideoModal";
 
@@ -182,6 +183,8 @@ export default function ProjectOverview() {
   const { id } = router.query;
   const dispatch = useDispatch();
   const { byId, list, loading } = useSelector((s) => s.project);
+  const { stats: apiStats, fetched: settingsFetched } = useSelector((s) => s.siteSettings);
+  const lotusssStats = apiStats.length > 0 ? apiStats : statsFallback;
 
   const project = byId[id] || list.find((p) => String(p.id) === String(id)) || null;
 
@@ -190,6 +193,10 @@ export default function ProjectOverview() {
     dispatch(fetchProjectById(id));
     if (!list.length) dispatch(fetchProjects());
   }, [id]);
+
+  useEffect(() => {
+    if (!settingsFetched) dispatch(fetchSiteSettings());
+  }, [settingsFetched, dispatch]);
 
   if (!id || (!project && loading)) {
     return (

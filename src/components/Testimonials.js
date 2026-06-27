@@ -2,20 +2,18 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TESTIMONIALS as fallback } from "@/data/fallback";
 import { fadeInUp, slideLeft } from "@/lib/animations";
-import axios from "axios";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 
 export default function Testimonials() {
-  const [items, setItems] = useState(fallback);
+  const dispatch = useDispatch();
+  const { testimonials: apiItems, fetched } = useSelector((s) => s.siteSettings);
+  const items = apiItems.length > 0 ? apiItems : fallback;
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
 
   useEffect(() => {
-    axios.get(`${API}site-settings`).then((res) => {
-      const t = res.data?.data?.data?.testimonials;
-      if (Array.isArray(t) && t.length > 0) { setItems(t); setCurrent(0); }
-    }).catch(() => {});
+    if (!fetched) dispatch(fetchSiteSettings());
   }, []);
 
   const go = (dir) => {

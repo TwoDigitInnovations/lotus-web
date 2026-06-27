@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { submitContact, resetContact } from "@/store/slices/contactSlice";
-import { FOOTER as footerData } from "@/data/fallback";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
+import { FOOTER as footerFallback } from "@/data/fallback";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
+import SEO from "@/components/SEO";
 
 const EMPTY = { name: "", email: "", phone: "", subject: "", message: "" };
 
@@ -20,9 +22,23 @@ function validate(form) {
 }
 
 export default function ContactPage() {
-  const { contact } = footerData;
   const dispatch = useDispatch();
   const { status, error } = useSelector((s) => s.contact);
+  const { footer: apiFooter, pageBanners, fetched } = useSelector((s) => s.siteSettings);
+  const bannerSrc = pageBanners?.contact || "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
+
+  useEffect(() => {
+    if (!fetched) dispatch(fetchSiteSettings());
+  }, []);
+
+  const contact = {
+    phone: apiFooter?.phone || footerFallback.contact.phone,
+    altPhone: apiFooter?.altPhone || footerFallback.contact.altPhone,
+    email: apiFooter?.email || footerFallback.contact.email,
+    website: apiFooter?.website || footerFallback.contact.website,
+    address: apiFooter?.address || footerFallback.contact.address,
+    addressLine2: apiFooter?.addressLine2 || footerFallback.contact.addressLine2,
+  };
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
 
@@ -86,6 +102,11 @@ export default function ContactPage() {
 
   return (
     <main>
+      <SEO
+        title="Contact Us"
+        description="Get in touch with Lotusss Real Estate. Visit our office in Sector 94, Noida or call us to schedule a site visit, enquire about projects or speak with our sales team."
+        url="/contact"
+      />
       {/* Hero Banner */}
       <section className="relative w-full overflow-hidden" style={{ height: "320px" }}>
         <motion.div
@@ -95,7 +116,7 @@ export default function ContactPage() {
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
           <Image
-            src="/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png"
+            src={bannerSrc}
             alt="Contact"
             fill
             sizes="100vw"
@@ -266,7 +287,7 @@ export default function ContactPage() {
               transition={{ duration: 0.65, ease: "easeOut" }}
             >
               <Image
-                src="/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png"
+                src={bannerSrc}
                 alt="Contact"
                 fill
                 sizes="(max-width: 1024px) 100vw, 55vw"
@@ -328,7 +349,7 @@ export default function ContactPage() {
             viewport={{ once: true }}
           >
             <Image
-              src="/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png"
+              src={bannerSrc}
               alt="Location map"
               fill
               sizes="100vw"

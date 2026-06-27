@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { WHY_CHOOSE_US as fallback } from "@/data/fallback";
 import { fadeInUp, scaleInBounce, staggerContainer } from "@/lib/animations";
-import axios from "axios";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 
 const DefaultIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -23,18 +22,20 @@ const iconMap = {
 };
 
 export default function WhyChooseUs() {
-  const [heading, setHeading] = useState("Why Choose Us?");
-  const [features, setFeatures] = useState(fallback);
+  const dispatch = useDispatch();
+  const { whyChooseUs, fetched } = useSelector((s) => s.siteSettings);
 
   useEffect(() => {
-    axios.get(`${API}site-settings`).then((res) => {
-      const wcu = res.data?.data?.data?.whyChooseUs;
-      if (wcu) {
-        if (wcu.heading) setHeading(wcu.heading);
-        if (Array.isArray(wcu.features) && wcu.features.length > 0) setFeatures(wcu.features);
-      }
-    }).catch(() => {});
+    if (!fetched) dispatch(fetchSiteSettings());
   }, []);
+
+  const heading = whyChooseUs?.heading || "Why Choose Us?";
+  const raw = (Array.isArray(whyChooseUs?.features) && whyChooseUs.features.length > 0)
+    ? whyChooseUs.features
+    : fallback;
+  // Always show a multiple of 3 so the 3-col grid never has an orphaned row
+  const trimTo = raw.length - (raw.length % 3) || raw.length;
+  const features = raw.slice(0, trimTo);
 
   return (
     <section className="py-20 bg-white">

@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
-import axios from "axios";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
+import SEO from "@/components/SEO";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 
 const sections = [
   {
@@ -71,18 +71,20 @@ const sections = [
   },
 ];
 
+const FALLBACK_BANNER = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
+
 export default function TermsOfService() {
-  const [dynamicContent, setDynamicContent] = useState(null);
+  const dispatch = useDispatch();
+  const { termsOfService: dynamicContent, pageBanners, fetched } = useSelector((s) => s.siteSettings);
+  const bannerSrc = pageBanners?.termsOfService || FALLBACK_BANNER;
 
   useEffect(() => {
-    axios.get(`${API}site-settings`).then((res) => {
-      const c = res.data?.data?.data?.termsOfService;
-      if (c) setDynamicContent(c);
-    }).catch(() => {});
+    if (!fetched) dispatch(fetchSiteSettings());
   }, []);
 
   return (
     <main className="bg-white min-h-screen">
+      <SEO title="Terms of Service" description="Read Lotusss Real Estate's Terms of Service — rules for using our website, property information, enquiry submissions and intellectual property." url="/terms-of-service" />
       {/* Hero */}
       <section className="relative w-full overflow-hidden" style={{ height: "320px" }}>
         <motion.div
@@ -92,7 +94,7 @@ export default function TermsOfService() {
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
           <img
-            src="/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png"
+            src={bannerSrc}
             alt="Terms of Service"
             className="absolute inset-0 w-full h-full object-cover"
           />

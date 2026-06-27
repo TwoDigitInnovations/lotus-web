@@ -1,23 +1,17 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { PROPERTY_TYPES as fallbackTypes } from "@/data/fallback";
-import axios from "axios";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPropertyTypes } from "@/store/slices/propertyTypeSlice";
 
 export default function PropertyTypes() {
-  const [types, setTypes] = useState(fallbackTypes);
+  const dispatch = useDispatch();
+  const { types, fetched } = useSelector((s) => s.propertyType);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
 
   useEffect(() => {
-    axios.get(`${API}property-types`).then((res) => {
-      const data = res.data?.data?.data;
-      if (Array.isArray(data) && data.length > 0) {
-        setTypes(data.map((t) => ({ id: t._id, label: t.label, image: t.image })));
-      }
-    }).catch(() => {});
+    if (!fetched) dispatch(fetchPropertyTypes());
   }, []);
 
   const total = types.length;

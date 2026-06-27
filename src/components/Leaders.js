@@ -1,15 +1,18 @@
+import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { LEADERS as fallback } from "@/data/fallback";
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
 
 export default function Leaders({ data }) {
+  const sectionHeadings = useSelector((s) => s.siteSettings.sectionHeadings);
+  const heading = sectionHeadings?.leaders || "Our Leaders";
   const items = (Array.isArray(data) && data.length > 0) ? data : fallback;
 
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div className="text-center mb-14" variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-          <h2 className="text-3xl font-normal text-gray-800 mb-3">Our Leaders</h2>
+          <h2 className="text-3xl font-normal text-gray-800 mb-3">{heading}</h2>
           <motion.span className="inline-block h-0.5" style={{ background: "#078DD4" }} initial={{ width: 0 }} whileInView={{ width: 56 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }} />
         </motion.div>
 

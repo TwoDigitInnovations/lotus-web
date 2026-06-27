@@ -4,13 +4,18 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects } from "@/store/slices/projectSlice";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp } from "@/lib/animations";
-
-const filters = ["All", "Commercial", "Residential"];
 
 export default function OurProjects() {
   const dispatch = useDispatch();
   const { list: projects, loading, fetched } = useSelector((s) => s.project);
+  const { sectionHeadings, fetched: settingsFetched } = useSelector((s) => s.siteSettings);
+
+  const heading = sectionHeadings?.ourProjects || "Our Projects";
+  const categories = [...new Set(projects.map((p) => p.category).filter(Boolean))];
+  const filters = ["All", ...categories.map((c) => c.charAt(0).toUpperCase() + c.slice(1))];
+
   const [activeFilter, setActiveFilter] = useState("All");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -18,6 +23,10 @@ export default function OurProjects() {
   useEffect(() => {
     if (!fetched && !loading) dispatch(fetchProjects());
   }, [fetched, loading, dispatch]);
+
+  useEffect(() => {
+    if (!settingsFetched) dispatch(fetchSiteSettings());
+  }, [settingsFetched, dispatch]);
 
   const filtered =
     activeFilter === "All"
@@ -66,7 +75,7 @@ export default function OurProjects() {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl font-normal text-gray-800 mb-3">
-            Our Projects
+            {heading}
           </h2>
           <motion.span
             className="inline-block h-0.5"

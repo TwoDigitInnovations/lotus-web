@@ -4,8 +4,12 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGallery } from "@/store/slices/gallerySlice";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp } from "@/lib/animations";
 import VideoModal from "@/components/VideoModal";
+import SEO from "@/components/SEO";
+
+const FALLBACK_BANNER = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
 
 const PER_PAGE = 4;
 
@@ -80,6 +84,8 @@ function ImageLightbox({ image, onClose }) {
 export default function GalleryPage() {
   const dispatch = useDispatch();
   const { photos, videos, loading, fetched } = useSelector((s) => s.gallery);
+  const { pageBanners, fetched: settingsFetched } = useSelector((s) => s.siteSettings);
+  const bannerSrc = pageBanners?.gallery || FALLBACK_BANNER;
   const [tab, setTab] = useState("photos");
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -89,6 +95,10 @@ export default function GalleryPage() {
   useEffect(() => {
     if (!fetched && !loading) dispatch(fetchGallery());
   }, [fetched, loading, dispatch]);
+
+  useEffect(() => {
+    if (!settingsFetched) dispatch(fetchSiteSettings());
+  }, [settingsFetched, dispatch]);
 
   const items = tab === "photos" ? photos : videos;
   const totalPages = Math.ceil(items.length / PER_PAGE);
@@ -114,6 +124,11 @@ export default function GalleryPage() {
 
   return (
     <main>
+      <SEO
+        title="Gallery"
+        description="Browse Lotusss Real Estate's gallery of premium properties — photos and videos of luxury apartments, villas, clubhouses, pools and landscapes across Noida projects."
+        url="/gallery"
+      />
       {/* Hero */}
       <section
         className="relative w-full overflow-hidden"
@@ -126,7 +141,7 @@ export default function GalleryPage() {
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
           <Image
-            src="/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png"
+            src={bannerSrc}
             alt="Gallery"
             fill
             sizes="100vw"

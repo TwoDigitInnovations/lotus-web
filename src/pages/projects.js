@@ -4,14 +4,22 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects } from "@/store/slices/projectSlice";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
+import SEO from "@/components/SEO";
 
-const FILTERS = ["All", "Commercial", "Residential"];
 const PER_PAGE = 4;
+const FALLBACK_BANNER = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
 
 export default function ProjectsPage() {
   const dispatch = useDispatch();
   const { list: projects, loading, fetched } = useSelector((s) => s.project);
+  const { pageBanners, fetched: settingsFetched } = useSelector((s) => s.siteSettings);
+  const bannerSrc = pageBanners?.projects || FALLBACK_BANNER;
+
+  const categories = [...new Set(projects.map((p) => p.category).filter(Boolean))];
+  const FILTERS = ["All", ...categories.map((c) => c.charAt(0).toUpperCase() + c.slice(1))];
+
   const [activeFilter, setActiveFilter] = useState("All");
   const [page, setPage] = useState(1);
   const [direction, setDirection] = useState(1);
@@ -19,6 +27,10 @@ export default function ProjectsPage() {
   useEffect(() => {
     if (!fetched && !loading) dispatch(fetchProjects());
   }, [fetched, loading, dispatch]);
+
+  useEffect(() => {
+    if (!settingsFetched) dispatch(fetchSiteSettings());
+  }, [settingsFetched, dispatch]);
 
   const filtered =
     activeFilter === "All"
@@ -41,6 +53,11 @@ export default function ProjectsPage() {
 
   return (
     <main>
+      <SEO
+        title="Projects"
+        description="Explore Lotusss Real Estate's portfolio of luxury residential and commercial projects in Noida — 3 BHK apartments, villas, office spaces and more across prime sectors."
+        url="/projects"
+      />
       {/* Hero Banner */}
       <section className="relative w-full overflow-hidden" style={{ height: "320px" }}>
         <motion.div
@@ -50,7 +67,7 @@ export default function ProjectsPage() {
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
           <Image
-            src="/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png"
+            src={bannerSrc}
             alt="Projects"
             fill
             sizes="100vw"

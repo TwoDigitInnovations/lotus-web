@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "@/store/slices/blogSlice";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp } from "@/lib/animations";
 
 const DESKTOP_COUNT = 3;
@@ -11,6 +12,12 @@ const DESKTOP_COUNT = 3;
 export default function RecentBlogs() {
   const dispatch = useDispatch();
   const { list: blogs, loading, fetched } = useSelector((s) => s.blog);
+  const { sectionHeadings, fetched: settingsFetched } = useSelector((s) => s.siteSettings);
+  const heading = sectionHeadings?.recentBlogs || "Recent Blogs";
+
+  useEffect(() => {
+    if (!settingsFetched) dispatch(fetchSiteSettings());
+  }, [settingsFetched, dispatch]);
   const total = blogs.length;
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -42,7 +49,7 @@ export default function RecentBlogs() {
           viewport={{ once: true }}
         >
           <div>
-            <h2 className="text-4xl font-normal text-gray-800 mb-3">Recent Blogs</h2>
+            <h2 className="text-4xl font-normal text-gray-800 mb-3">{heading}</h2>
             <motion.span
               className="inline-block h-0.5"
               style={{ background: "#078DD4" }}

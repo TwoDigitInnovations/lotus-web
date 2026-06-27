@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS as navLinks } from "@/data/fallback";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+  const logo = useSelector((s) => s.siteSettings.logo) || "/images/logo.png";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -30,7 +32,7 @@ export default function Navbar() {
         <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.95 }}>
           <Link href="/" className="flex items-center gap-2">
             <img
-              src="/images/logo.png"
+              src={logo}
               alt="Lotusss Logo"
               className="w-20 h-20 rounded-full object-contain"
               // style={{ boxShadow: "0 4px 12px rgba(27,157,226,0.4)" }}

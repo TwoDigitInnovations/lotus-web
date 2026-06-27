@@ -1,19 +1,16 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { WELCOME as welcomeContent } from "@/data/fallback";
 import { fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
-import axios from "axios";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 
 export default function WelcomeSection() {
-  const [data, setData] = useState(null);
+  const dispatch = useDispatch();
+  const { welcome: data, fetched } = useSelector((s) => s.siteSettings);
 
   useEffect(() => {
-    axios.get(`${API}site-settings`).then((res) => {
-      const w = res.data?.data?.data?.welcome;
-      if (w) setData(w);
-    }).catch(() => {});
+    if (!fetched) dispatch(fetchSiteSettings());
   }, []);
 
   const title = data?.heading || welcomeContent.title;

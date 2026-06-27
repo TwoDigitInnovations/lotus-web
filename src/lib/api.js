@@ -1,8 +1,6 @@
 import axios from "axios";
 
-// const ConstantsUrl = "https://api.lotusssinfra.com/";
-
-const ConstantsUrl = "http://localhost:8002/";
+const ConstantsUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
 
 function Api(method, url, data, router) {
   return new Promise(function (resolve, reject) {

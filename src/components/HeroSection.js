@@ -1,20 +1,16 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { HERO_SLIDES as heroSlides } from "@/data/fallback";
-import axios from "axios";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "https://api.lotusssinfra.com/";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeroBanners } from "@/store/slices/heroBannerSlice";
 
 export default function HeroSection() {
-  const [slides, setSlides] = useState(heroSlides);
+  const dispatch = useDispatch();
+  const { slides, fetched } = useSelector((s) => s.heroBanner);
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    axios.get(`${API}hero-banners`).then((res) => {
-      const data = res.data?.data?.data;
-      if (Array.isArray(data) && data.length > 0) setSlides(data);
-    }).catch(() => {});
+    if (!fetched) dispatch(fetchHeroBanners());
   }, []);
 
   useEffect(() => {
