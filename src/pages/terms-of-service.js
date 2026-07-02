@@ -132,7 +132,7 @@ export default function TermsOfService() {
 
           {dynamicContent ? (
             <motion.div variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              <div className="text-gray-500 text-sm leading-relaxed whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: dynamicContent }} />
+              <div className="rich-html text-gray-500 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: dynamicContent }} />
             </motion.div>
           ) : (
             <motion.div className="flex flex-col gap-10" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>

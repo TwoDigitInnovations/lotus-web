@@ -30,12 +30,9 @@ export default function WhyChooseUs() {
   }, []);
 
   const heading = whyChooseUs?.heading || "Why Choose Us?";
-  const raw = (Array.isArray(whyChooseUs?.features) && whyChooseUs.features.length > 0)
+  const features = (Array.isArray(whyChooseUs?.features) && whyChooseUs.features.length > 0)
     ? whyChooseUs.features
     : fallback;
-  // Always show a multiple of 3 so the 3-col grid never has an orphaned row
-  const trimTo = raw.length - (raw.length % 3) || raw.length;
-  const features = raw.slice(0, trimTo);
 
   return (
     <section className="py-20 bg-white">
@@ -76,12 +73,9 @@ export default function WhyChooseUs() {
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   READ MORE
-                  <span className="relative ml-1">
-                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-                      <path d="M1 9h10M7 1l4 4-4 4" stroke="#078DD4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className="absolute bottom-0 left-0 w-full h-px" style={{ background: "#078DD4" }} />
-                  </span>
+                  <svg width="14" height="10" viewBox="0 0 14 10" fill="none" className="ml-1">
+                    <path d="M1 9h10M7 1l4 4-4 4" stroke="#078DD4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </motion.span>
               </Link>
             </motion.div>

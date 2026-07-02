@@ -36,7 +36,7 @@ export const submitContact = (formData, router) => async (dispatch) => {
     return { success: res?.status, data: res?.data };
   } catch (err) {
     dispatch(setStatus('error'));
-    dispatch(setError('Network error. Please check your connection and try again.'));
+    dispatch(setError(err?.message || 'Network error. Please check your connection and try again.'));
     throw err;
   }
 };

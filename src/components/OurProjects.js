@@ -258,19 +258,6 @@ export default function OurProjects() {
                 {/* Dark overlay */}
                 <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.38)" }} />
 
-                {/* Center click hint */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <motion.div
-                    className="w-12 h-12 rounded-full border border-white/50 flex items-center justify-center"
-                    style={{ background: "rgba(255,255,255,0.18)" }}
-                    whileHover={{ scale: 1.15, background: "rgba(255,255,255,0.3)" }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
-                      <path d="M5 2l5 5-5 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </motion.div>
-                </div>
-
                 {/* Animated text */}
                 <div
                   className="absolute bottom-0 left-0 right-0 p-5"

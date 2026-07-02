@@ -7,11 +7,12 @@ import { fadeInLeft, fadeInRight, fadeInUp, staggerContainer } from "@/lib/anima
 
 const FALLBACK_IMG = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
 
-const EMPTY = { name: "", phone: "", subject: "", message: "" };
+const EMPTY = { name: "", email: "", phone: "", subject: "", message: "" };
 
 function validate(form) {
   const e = {};
   if (!form.name.trim() || form.name.trim().length < 2) e.name = "Please enter your name";
+  if (!form.email.trim() || !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(form.email.trim())) e.email = "Please enter a valid email address";
   if (!form.phone.trim() || !/^\d{7,15}$/.test(form.phone.trim())) e.phone = "Phone must be 7–15 digits (numbers only)";
   if (!form.subject.trim()) e.subject = "Please enter a subject";
   if (!form.message.trim()) e.message = "Please write your message";
@@ -45,6 +46,7 @@ export default function ContactSection() {
 
   const fields = [
     { name: "name", type: "text", placeholder: "Name" },
+    { name: "email", type: "email", placeholder: "Email Address" },
     { name: "phone", type: "tel", placeholder: "Phone Number" },
     { name: "subject", type: "text", placeholder: "Subject..." },
   ];

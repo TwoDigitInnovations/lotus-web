@@ -76,6 +76,22 @@ const docIcons = {
       <line x1="9" y1="15" x2="15" y2="15" />
     </svg>
   ),
+  "COMPLETION CERTIFICATE": (
+    <svg
+      width="32"
+      height="32"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="8" r="6" />
+      <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+      <path d="M9 8l2 2 4-4" />
+    </svg>
+  ),
 };
 
 function GallerySection({ gallery }) {
@@ -414,8 +430,8 @@ export default function ProjectOverview() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             />
-            <p
-              className="text-gray-500 text-sm leading-relaxed"
+            <div
+              className="rich-html text-gray-500 text-sm leading-relaxed text-left"
               dangerouslySetInnerHTML={{ __html: project.overview }}
             />
           </motion.div>
@@ -564,8 +580,8 @@ export default function ProjectOverview() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               />
-              <p
-                className="text-gray-500 text-sm leading-relaxed"
+              <div
+                className="rich-html text-gray-500 text-sm leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: project.aboutCity.text }}
               />
             </motion.div>
@@ -594,8 +610,8 @@ export default function ProjectOverview() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               />
-              <p
-                className="text-gray-500 text-sm leading-relaxed"
+              <div
+                className="rich-html text-gray-500 text-sm leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: project.aboutSector.text }}
               />
             </motion.div>
