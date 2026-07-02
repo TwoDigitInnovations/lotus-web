@@ -5,7 +5,7 @@ import { fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 
-export default function WelcomeSection() {
+export default function  WelcomeSection() {
   const dispatch = useDispatch();
   const { welcome: data, fetched } = useSelector((s) => s.siteSettings);
 
