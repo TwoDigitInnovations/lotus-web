@@ -12,7 +12,7 @@ function getEmbedUrl(url) {
 }
 
 function isDirectVideo(url) {
-  return url && /\.(mp4|webm|ogg)(\?|$)/i.test(url);
+  return url && (/\.(mp4|webm|ogg|mov)(\?|$)/i.test(url) || url.includes("/video/upload/"));
 }
 
 export default function VideoModal({ video, onClose }) {

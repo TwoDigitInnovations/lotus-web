@@ -21,6 +21,11 @@ function normalize(item) {
     aboutSector: item.aboutSector || { name: '', text: '' },
     reraNumber: item.reraNumber || '',
     reraUrl: item.reraUrl || '',
+    slug: item.slug || '',
+    metaTitle: item.metaTitle || '',
+    metaDescription: item.metaDescription || '',
+    mapEmbed: item.mapEmbed || '',
+    locationImage: item.locationImage || '',
   };
 }
 

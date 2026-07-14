@@ -75,11 +75,22 @@ export default function ContactPage() {
     },
     {
       label: "Email Address",
-      lines: [contact.email, contact.website],
+      lines: [contact.email],
       icon: (
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
           <polyline points="22,6 12,13 2,6" />
+        </svg>
+      ),
+    },
+    {
+      label: "Website",
+      lines: [contact.website],
+      icon: (
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
         </svg>
       ),
     },
@@ -343,7 +354,7 @@ export default function ContactPage() {
           </motion.h2>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12"
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -371,19 +382,26 @@ export default function ContactPage() {
 
           <motion.div
             className="relative rounded-2xl overflow-hidden w-full"
-            style={{ height: "280px" }}
+            style={{ height: "320px" }}
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <Image
-              src={bannerSrc}
-              alt="Location map"
-              fill
-              sizes="100vw"
-              className="object-cover"
-            />
+            {apiFooter?.mapEmbed ? (
+              <div 
+                className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full border-0" 
+                dangerouslySetInnerHTML={{ __html: apiFooter.mapEmbed }} 
+              />
+            ) : (
+              <Image
+                src={bannerSrc}
+                alt="Location map"
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />
+            )}
           </motion.div>
         </div>
       </section>

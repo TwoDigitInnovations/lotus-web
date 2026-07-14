@@ -958,6 +958,8 @@ export const footerData = {
     { platform: "twitter", href: "#", label: "Twitter" },
     { platform: "instagram", href: "#", label: "Instagram" },
     { platform: "facebook", href: "#", label: "Facebook" },
+    { platform: "linkedin", href: "#", label: "LinkedIn" },
+    { platform: "youtube", href: "#", label: "YouTube" },
   ],
   socialTextLinks: [
     { label: "Privacy Policy", href: "/privacy-policy" },

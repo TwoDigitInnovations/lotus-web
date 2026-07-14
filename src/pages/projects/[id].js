@@ -6,9 +6,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjectById, fetchProjects } from "@/store/slices/projectSlice";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
+import { fetchAboutPage } from "@/store/slices/aboutSlice";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import VideoModal from "@/components/VideoModal";
 import EmptyState from "@/components/EmptyState";
+import SEO from "@/components/SEO";
 
 const fallbackDocIcon = (
   <svg
@@ -296,6 +298,7 @@ export default function ProjectOverview() {
   const { stats: apiStats, fetched: settingsFetched } = useSelector(
     (s) => s.siteSettings,
   );
+  const { data: aboutData, fetched: aboutFetched } = useSelector((s) => s.about);
   const lotusssStats = apiStats;
 
   const project =
@@ -310,6 +313,10 @@ export default function ProjectOverview() {
   useEffect(() => {
     if (!settingsFetched) dispatch(fetchSiteSettings());
   }, [settingsFetched, dispatch]);
+
+  useEffect(() => {
+    if (!aboutFetched) dispatch(fetchAboutPage());
+  }, [aboutFetched, dispatch]);
 
   if (!id || (!project && loading)) {
     return (
@@ -346,6 +353,11 @@ export default function ProjectOverview() {
 
   return (
     <main className="bg-white">
+      <SEO
+        title={project.metaTitle || project.name}
+        description={project.metaDescription || project.overview?.replace(/<[^>]+>/g, "").slice(0, 160)}
+        url={`/projects/${id}`}
+      />
       {/* Hero Banner */}
       <section
         className="relative w-full overflow-hidden"
@@ -519,19 +531,26 @@ export default function ProjectOverview() {
           </motion.div>
           <motion.div
             className="relative w-full rounded-2xl overflow-hidden mb-8"
-            style={{ height: "260px" }}
+            style={{ height: "300px" }}
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <Image
-              src={project.image}
-              alt="Location map"
-              fill
-              sizes="100vw"
-              className="object-cover"
-            />
+            {project.mapEmbed ? (
+              <div 
+                className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full border-0" 
+                dangerouslySetInnerHTML={{ __html: project.mapEmbed }} 
+              />
+            ) : (
+              <Image
+                src={project.locationImage || project.image}
+                alt="Location map"
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />
+            )}
           </motion.div>
           <motion.div
             variants={fadeInUp}
@@ -629,7 +648,7 @@ export default function ProjectOverview() {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl font-semibold text-gray-800 mb-3">
-              About Lotusss
+              About Lotusss Infra
             </h2>
             <motion.span
               className="inline-block h-0.5 mb-6"
@@ -639,13 +658,18 @@ export default function ProjectOverview() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             />
-            <p className="text-gray-500 text-sm leading-relaxed mb-10">
-              LOTUSSS is a premier real estate developer committed to delivering
-              iconic projects across residential, commercial, and mixed-use
-              spaces. With a legacy of excellence spanning decades, we have set
-              new benchmarks in design, quality, and customer trust across Noida
-              and NCR.
-            </p>
+            {aboutData?.story?.description ? (
+              <div 
+                className="rich-html text-gray-500 text-sm leading-relaxed mb-10 text-left space-y-4"
+                dangerouslySetInnerHTML={{ __html: aboutData.story.description }}
+              />
+            ) : (
+              <p className="text-gray-500 text-sm leading-relaxed mb-10">
+                Lotusss Infra is a premier real estate developer committed to delivering
+                iconic projects across premium commercial properties in Noida. With a legacy of excellence, we have set
+                new benchmarks in design, quality, and customer trust across Noida and NCR.
+              </p>
+            )}
             <motion.div
               className="flex flex-col md:flex-row items-center justify-center gap-8"
               variants={staggerContainer}
@@ -678,7 +702,8 @@ export default function ProjectOverview() {
         </div>
       </section>
 
-      {project.reraNumber && (
+      {/* Hide RERA section for now
+      project.reraNumber && (
         <section className="py-8" style={{ background: "#078DD4" }}>
           <div className="text-center">
             <p className="text-white font-bold text-sm tracking-widest mb-1">
@@ -693,7 +718,8 @@ export default function ProjectOverview() {
             </a>
           </div>
         </section>
-      )}
+      )
+      */}
     </main>
   );
 }
