@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import { LEADERS as fallback } from "@/data/fallback";
 import { fadeInUp, fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
+import EmptyState from "@/components/EmptyState";
 
-export default function Leaders({ data }) {
+export default function Leaders({ data, fetched }) {
   const sectionHeadings = useSelector((s) => s.siteSettings.sectionHeadings);
   const heading = sectionHeadings?.leaders || "Our Leaders";
-  const items = (Array.isArray(data) && data.length > 0) ? data : fallback;
+  const items = Array.isArray(data) ? data : [];
 
   return (
     <section className="py-16 bg-white">
@@ -16,11 +16,15 @@ export default function Leaders({ data }) {
           <motion.span className="inline-block h-0.5" style={{ background: "#078DD4" }} initial={{ width: 0 }} whileInView={{ width: 56 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }} />
         </motion.div>
 
-        <div className="flex flex-col gap-16">
-          {items.map((leader, i) => (
-            <LeaderCard key={leader.id || leader._id || i} leader={leader} index={i} />
-          ))}
-        </div>
+        {fetched && items.length === 0 ? (
+          <EmptyState message="No leaders available yet." />
+        ) : (
+          <div className="flex flex-col gap-16">
+            {items.map((leader, i) => (
+              <LeaderCard key={leader.id || leader._id || i} leader={leader} index={i} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

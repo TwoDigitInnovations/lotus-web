@@ -3,6 +3,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeroBanners } from "@/store/slices/heroBannerSlice";
+import EmptyState from "@/components/EmptyState";
 
 export default function HeroSection() {
   const dispatch = useDispatch();
@@ -18,6 +19,18 @@ export default function HeroSection() {
     const timer = setInterval(() => setCurrent((prev) => (prev + 1) % slides.length), 5000);
     return () => clearInterval(timer);
   }, [slides.length]);
+
+  if (!fetched || slides.length === 0) {
+    return (
+      <section id="home" className="relative w-full h-screen min-h-150 flex items-center justify-center" style={{ background: "#0d1f35" }}>
+        {fetched ? (
+          <EmptyState variant="light" message="No banners available yet." />
+        ) : (
+          <div className="w-10 h-10 rounded-full border-2 border-white/25 border-t-white animate-spin" />
+        )}
+      </section>
+    );
+  }
 
   const slide = slides[current] || slides[0];
   // Support both API shape (media/title/subtitle/ctaText/ctaLink) and legacy siteData shape (image/title/subtitle/highlight)

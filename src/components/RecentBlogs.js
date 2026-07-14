@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "@/store/slices/blogSlice";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp } from "@/lib/animations";
+import EmptyState from "@/components/EmptyState";
 
 const DESKTOP_COUNT = 3;
 
@@ -25,6 +26,19 @@ export default function RecentBlogs() {
   useEffect(() => {
     if (!fetched && !loading) dispatch(fetchBlogs());
   }, [fetched, loading, dispatch]);
+
+  if (fetched && total === 0) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl font-normal text-gray-800 mb-3 text-center">{heading}</h2>
+          <EmptyState message="No blog posts available yet." />
+        </div>
+      </section>
+    );
+  }
+
+  if (!fetched || total === 0) return null;
 
   const goTo = (next) => {
     const n = (next + total) % total;

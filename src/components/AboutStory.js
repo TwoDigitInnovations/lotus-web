@@ -1,11 +1,23 @@
 import { motion } from "framer-motion";
-import { ABOUT_STORY as fallback } from "@/data/fallback";
 import { fadeInLeft, fadeInRight } from "@/lib/animations";
+import EmptyState from "@/components/EmptyState";
 
-export default function AboutStory({ data }) {
-  const imageSrc = data?.image || fallback.image;
-  const description = data?.description || fallback.description;
+export default function AboutStory({ data, fetched }) {
+  const imageSrc = data?.image || "";
+  const description = data?.description || "";
   const highlights = data?.highlights || [];
+
+  if (fetched && !description) {
+    return (
+      <section className="py-10 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <EmptyState message="No content available yet." />
+        </div>
+      </section>
+    );
+  }
+
+  if (!fetched || !description) return null;
 
   return (
     <section className="py-10 bg-white overflow-hidden">
@@ -22,7 +34,7 @@ export default function AboutStory({ data }) {
             whileHover={{ scale: 1.01 }}
             transition={{ duration: 0.4 }}
           >
-            <img src={imageSrc} alt="Our Story" className="absolute inset-0 w-full h-full object-cover" />
+            {imageSrc && <img src={imageSrc} alt="Our Story" className="absolute inset-0 w-full h-full object-cover" />}
           </motion.div>
 
           {/* Right: Blue card */}

@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { PROPERTY_TYPES } from '@/data/fallback';
 import { Api } from '@/lib/api';
 
 const propertyTypeSlice = createSlice({
   name: 'propertyType',
   initialState: {
-    types: PROPERTY_TYPES,
+    types: [],
     loading: false,
     fetched: false,
   },
@@ -24,9 +23,7 @@ export const fetchPropertyTypes = () => async (dispatch) => {
     const res = await Api('get', 'property-types', '', null);
     if (res?.status) {
       const data = res.data?.data;
-      if (Array.isArray(data) && data.length > 0) {
-        dispatch(setTypes(data.map((t) => ({ id: t._id, label: t.label, image: t.image }))));
-      }
+      dispatch(setTypes(Array.isArray(data) ? data.map((t) => ({ id: t._id, label: t.label, image: t.image })) : []));
     }
   } catch (_) {}
   finally {

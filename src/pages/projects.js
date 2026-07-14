@@ -7,6 +7,7 @@ import { fetchProjects } from "@/store/slices/projectSlice";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import SEO from "@/components/SEO";
+import EmptyState from "@/components/EmptyState";
 
 const PER_PAGE = 4;
 const FALLBACK_BANNER = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
@@ -135,21 +136,25 @@ export default function ProjectsPage() {
 
           {/* Cards */}
           <div style={{ minHeight: "600px" }}>
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={`${activeFilter}-${page}`}
-                custom={direction}
-                initial={{ opacity: 0, y: direction * 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -direction * 40 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="flex flex-col gap-5"
-              >
-                {visible.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
-                ))}
-              </motion.div>
-            </AnimatePresence>
+            {fetched && filtered.length === 0 ? (
+              <EmptyState message="No projects available yet." />
+            ) : (
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={`${activeFilter}-${page}`}
+                  custom={direction}
+                  initial={{ opacity: 0, y: direction * 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -direction * 40 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="flex flex-col gap-5"
+                >
+                  {visible.map((project) => (
+                    <ProjectCard key={project.id} project={project} />
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            )}
           </div>
 
           {/* Pagination */}

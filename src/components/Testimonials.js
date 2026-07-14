@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TESTIMONIALS as fallback } from "@/data/fallback";
 import { fadeInUp, slideLeft } from "@/lib/animations";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
+import EmptyState from "@/components/EmptyState";
 
 export default function Testimonials() {
   const dispatch = useDispatch();
-  const { testimonials: apiItems, fetched } = useSelector((s) => s.siteSettings);
-  const items = apiItems.length > 0 ? apiItems : fallback;
+  const { testimonials: items, fetched } = useSelector((s) => s.siteSettings);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
 
@@ -20,6 +19,19 @@ export default function Testimonials() {
     setDirection(dir);
     setCurrent((prev) => (prev + dir + items.length) % items.length);
   };
+
+  if (fetched && items.length === 0) {
+    return (
+      <section className="py-20" style={{ background: "#078DD4" }}>
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-white text-4xl font-normal mb-3">People Who Wished Us</h2>
+          <EmptyState variant="light" message="No testimonials available yet." />
+        </div>
+      </section>
+    );
+  }
+
+  if (!fetched || items.length === 0) return null;
 
   const item = items[current] || {};
   // Support both API shape (name/role/quote) and legacy siteData shape (name/role/text)

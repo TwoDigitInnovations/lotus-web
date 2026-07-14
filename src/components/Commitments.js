@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { COMMITMENTS as fallback } from "@/data/fallback";
 import { fadeInUp, scaleInBounce, staggerContainer } from "@/lib/animations";
+import EmptyState from "@/components/EmptyState";
 
 const iconMap = {
   star: (
@@ -154,8 +154,8 @@ const DefaultIcon = () => (
   </svg>
 );
 
-export default function Commitments({ data }) {
-  const items = Array.isArray(data) && data.length > 0 ? data : fallback;
+export default function Commitments({ data, fetched }) {
+  const items = Array.isArray(data) ? data : [];
 
   return (
     <section className="py-16 bg-white">
@@ -179,6 +179,8 @@ export default function Commitments({ data }) {
             transition={{ duration: 0.6, delay: 0.3 }}
           />
         </motion.div>
+
+        {fetched && items.length === 0 && <EmptyState message="No content available yet." />}
 
         <motion.div
           className="grid grid-cols-2 md:grid-cols-4 gap-4"

@@ -5,10 +5,10 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjectById, fetchProjects } from "@/store/slices/projectSlice";
-import { STATS as statsFallback } from "@/data/fallback";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import VideoModal from "@/components/VideoModal";
+import EmptyState from "@/components/EmptyState";
 
 const fallbackDocIcon = (
   <svg
@@ -296,7 +296,7 @@ export default function ProjectOverview() {
   const { stats: apiStats, fetched: settingsFetched } = useSelector(
     (s) => s.siteSettings,
   );
-  const lotusssStats = apiStats.length > 0 ? apiStats : statsFallback;
+  const lotusssStats = apiStats;
 
   const project =
     byId[id] || list.find((p) => String(p.id) === String(id)) || null;
@@ -371,15 +371,15 @@ export default function ProjectOverview() {
           />
         </motion.div>
         <motion.div
-          className="absolute bottom-0 left-0 right-0 px-6 py-4 flex items-center justify-between"
+          className="absolute bottom-0 left-0 right-0 px-6 py-4 flex items-center justify-between max-w-7xl mx-auto"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.7 }}
         >
-          <span className="text-white text-2xl font-semibold">
+          <span className="text-white text-2xl md:text-4xl font-semibold">
             {project.name}
           </span>
-          <span className="text-white/80 text-sm">{project.location}</span>
+          <span className="text-white/80 text-xl">{project.location}</span>
         </motion.div>
         <div className="relative z-10 h-full flex flex-col items-center justify-center gap-3">
           <motion.h1
@@ -671,6 +671,9 @@ export default function ProjectOverview() {
                 </motion.div>
               ))}
             </motion.div>
+            {settingsFetched && lotusssStats.length === 0 && (
+              <EmptyState message="No stats available yet." />
+            )}
           </motion.div>
         </div>
       </section>

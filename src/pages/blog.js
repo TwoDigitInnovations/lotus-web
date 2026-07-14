@@ -7,18 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "@/store/slices/blogSlice";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
+import EmptyState from "@/components/EmptyState";
 
 const FALLBACK_BANNER = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
 
 export default function BlogPage() {
   const dispatch = useDispatch();
-  const { list: blogs, loading } = useSelector((s) => s.blog);
+  const { list: blogs, loading, fetched } = useSelector((s) => s.blog);
   const { pageBanners, fetched: settingsFetched } = useSelector((s) => s.siteSettings);
   const bannerSrc = pageBanners?.blog || FALLBACK_BANNER;
 
   useEffect(() => {
-    if (!loading) dispatch(fetchBlogs());
-  }, []);
+    if (!fetched && !loading) dispatch(fetchBlogs());
+  }, [fetched, loading, dispatch]);
 
   useEffect(() => {
     if (!settingsFetched) dispatch(fetchSiteSettings());
@@ -75,12 +76,21 @@ export default function BlogPage() {
       {/* Blog Grid */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-6">
+          {loading && blogs.length === 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="rounded-2xl overflow-hidden bg-gray-100 animate-pulse" style={{ height: "480px" }} />
+              ))}
+            </div>
+          ) : blogs.length === 0 ? (
+            <EmptyState message="No blog posts available yet." />
+          ) : (
           <motion.div
+            key={blogs.length}
             className="grid grid-cols-1 md:grid-cols-3 gap-6"
             variants={staggerContainer}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
+            animate="visible"
           >
             {blogs.map((blog) => (
               <motion.div key={blog.id} variants={fadeInUp}>
@@ -134,6 +144,7 @@ export default function BlogPage() {
               </motion.div>
             ))}
           </motion.div>
+          )}
         </div>
       </section>
     </main>

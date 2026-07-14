@@ -8,6 +8,7 @@ import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp } from "@/lib/animations";
 import VideoModal from "@/components/VideoModal";
 import SEO from "@/components/SEO";
+import EmptyState from "@/components/EmptyState";
 
 const FALLBACK_BANNER = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
 
@@ -268,27 +269,31 @@ export default function GalleryPage() {
           </div>
 
           {/* Cards */}
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={`${tab}-${page}`}
-              custom={direction}
-              initial={{ opacity: 0, y: direction * 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -direction * 30 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-5"
-            >
-              {visible.map((item) => (
-                <GalleryCard
-                  key={item.id}
-                  item={item}
-                  tab={tab}
-                  onPhotoClick={tab === "photos" ? () => setActiveImage(item) : undefined}
-                  onVideoClick={tab === "videos" ? () => setActiveVideo(item) : undefined}
-                />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+          {fetched && items.length === 0 ? (
+            <EmptyState message={`No ${tab} available yet.`} />
+          ) : (
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={`${tab}-${page}`}
+                custom={direction}
+                initial={{ opacity: 0, y: direction * 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -direction * 30 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-5"
+              >
+                {visible.map((item) => (
+                  <GalleryCard
+                    key={item.id}
+                    item={item}
+                    tab={tab}
+                    onPhotoClick={tab === "photos" ? () => setActiveImage(item) : undefined}
+                    onVideoClick={tab === "videos" ? () => setActiveVideo(item) : undefined}
+                  />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          )}
         </div>
       </section>
 

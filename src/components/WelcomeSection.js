@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { WELCOME as welcomeContent } from "@/data/fallback";
 import { fadeInLeft, fadeInRight, staggerContainer } from "@/lib/animations";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
+import EmptyState from "@/components/EmptyState";
 
 export default function  WelcomeSection() {
   const dispatch = useDispatch();
@@ -13,14 +13,23 @@ export default function  WelcomeSection() {
     if (!fetched) dispatch(fetchSiteSettings());
   }, []);
 
-  const title = data?.heading || welcomeContent.title;
+  const title = data?.heading || "";
   const subheading = data?.subheading || "";
-  const description = data?.description || welcomeContent.description;
+  const description = data?.description || "";
   const isHtml = description?.trim().startsWith("<");
-  const apiImages = Array.isArray(data?.images) && data.images.length > 0
-    ? data.images.map((src, i) => ({ src, alt: `Image ${i + 1}` }))
-    : null;
-  const images = apiImages || welcomeContent.images;
+  const images = Array.isArray(data?.images) ? data.images.map((src, i) => ({ src, alt: `Image ${i + 1}` })) : [];
+
+  if (fetched && !description) {
+    return (
+      <section id="about" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <EmptyState message="No content available yet." />
+        </div>
+      </section>
+    );
+  }
+
+  if (!fetched || !description) return null;
 
   return (
     <section id="about" className="py-20 bg-white">
@@ -54,24 +63,36 @@ export default function  WelcomeSection() {
           </motion.div>
 
           {/* Right: Images */}
-          <motion.div
-            className="w-full lg:w-7/12 relative"
-            style={{ height: "400px" }}
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-          >
-            <motion.div variants={fadeInRight} className="absolute rounded-2xl overflow-hidden" style={{ left: 0, top: "36px", bottom: 0, width: "48%" }}>
-              <img src={images[0]?.src} alt={images[0]?.alt || "Image 1"} className="w-full h-full object-cover" />
+          {images.length === 0 ? (
+            <div className="w-full lg:w-7/12 rounded-2xl bg-slate-50" style={{ height: "400px" }}>
+              <EmptyState message="No images available yet." />
+            </div>
+          ) : (
+            <motion.div
+              className="w-full lg:w-7/12 relative"
+              style={{ height: "400px" }}
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+            >
+              {images[0] && (
+                <motion.div variants={fadeInRight} className="absolute rounded-2xl overflow-hidden" style={{ left: 0, top: "36px", bottom: 0, width: "48%" }}>
+                  <img src={images[0].src} alt={images[0].alt || "Image 1"} className="w-full h-full object-cover" />
+                </motion.div>
+              )}
+              {images[1] && (
+                <motion.div variants={fadeInRight} className="absolute rounded-2xl overflow-hidden" style={{ right: 0, top: 0, width: "44%", height: "calc(50% - 8px)" }}>
+                  <img src={images[1].src} alt={images[1].alt || "Image 2"} className="w-full h-full object-cover" />
+                </motion.div>
+              )}
+              {images[2] && (
+                <motion.div variants={fadeInRight} className="absolute rounded-2xl overflow-hidden" style={{ right: 0, bottom: 0, width: "44%", height: "calc(50% - 8px)" }}>
+                  <img src={images[2].src} alt={images[2].alt || "Image 3"} className="w-full h-full object-cover" />
+                </motion.div>
+              )}
             </motion.div>
-            <motion.div variants={fadeInRight} className="absolute rounded-2xl overflow-hidden" style={{ right: 0, top: 0, width: "44%", height: "calc(50% - 8px)" }}>
-              <img src={images[1]?.src} alt={images[1]?.alt || "Image 2"} className="w-full h-full object-cover" />
-            </motion.div>
-            <motion.div variants={fadeInRight} className="absolute rounded-2xl overflow-hidden" style={{ right: 0, bottom: 0, width: "44%", height: "calc(50% - 8px)" }}>
-              <img src={images[2]?.src} alt={images[2]?.alt || "Image 3"} className="w-full h-full object-cover" />
-            </motion.div>
-          </motion.div>
+          )}
 
         </div>
       </div>

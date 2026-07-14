@@ -7,13 +7,16 @@ import { fadeInLeft, fadeInRight, fadeInUp, staggerContainer } from "@/lib/anima
 
 const FALLBACK_IMG = "/images/luxury-house-with-large-garden-warm-lights-elegant-modern-architecture.png";
 
-const EMPTY = { name: "", email: "", phone: "", subject: "", message: "" };
+const ENQUIRY_TYPES = ["Partner Enquiry", "General/Sales Enquiry"];
+
+const EMPTY = { name: "", email: "", phone: "", subject: "", message: "", enquiryType: ENQUIRY_TYPES[1] };
 
 function validate(form) {
   const e = {};
   if (!form.name.trim() || form.name.trim().length < 2) e.name = "Please enter your name";
   if (!form.email.trim() || !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(form.email.trim())) e.email = "Please enter a valid email address";
   if (!form.phone.trim() || !/^\d{7,15}$/.test(form.phone.trim())) e.phone = "Phone must be 7–15 digits (numbers only)";
+  if (!ENQUIRY_TYPES.includes(form.enquiryType)) e.enquiryType = "Please select an enquiry type";
   if (!form.subject.trim()) e.subject = "Please enter a subject";
   if (!form.message.trim()) e.message = "Please write your message";
   return e;
@@ -135,6 +138,35 @@ export default function ContactSection() {
                       </AnimatePresence>
                     </div>
                   ))}
+                  <div className="flex flex-col gap-1">
+                    <select
+                      name="enquiryType"
+                      value={form.enquiryType}
+                      onChange={handleChange}
+                      className="w-full bg-transparent rounded-lg px-4 py-3 text-white text-sm outline-none transition-all"
+                      style={{ border: `1px solid ${errors.enquiryType ? "rgba(252,165,165,0.7)" : "rgba(255,255,255,0.25)"}` }}
+                      onFocus={(e) => { e.target.style.borderColor = errors.enquiryType ? "rgba(252,165,165,0.9)" : "rgba(255,255,255,0.7)"; }}
+                      onBlur={(e) => { e.target.style.borderColor = errors.enquiryType ? "rgba(252,165,165,0.7)" : "rgba(255,255,255,0.25)"; }}
+                    >
+                      {ENQUIRY_TYPES.map((t) => (
+                        <option key={t} value={t} style={{ color: "#1a2e44" }}>{t}</option>
+                      ))}
+                    </select>
+                    <AnimatePresence>
+                      {errors.enquiryType && (
+                        <motion.span
+                          key="err-enquiryType"
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          transition={{ duration: 0.2 }}
+                          className="text-red-300 text-xs px-1"
+                        >
+                          {errors.enquiryType}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
                   <div className="flex flex-col gap-1">
                     <textarea
                       name="message"

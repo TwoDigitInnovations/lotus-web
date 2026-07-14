@@ -3,6 +3,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPropertyTypes } from "@/store/slices/propertyTypeSlice";
+import EmptyState from "@/components/EmptyState";
 
 export default function PropertyTypes() {
   const dispatch = useDispatch();
@@ -15,6 +16,18 @@ export default function PropertyTypes() {
   }, []);
 
   const total = types.length;
+
+  if (fetched && total === 0) {
+    return (
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <EmptyState message="No property types available yet." />
+        </div>
+      </section>
+    );
+  }
+
+  if (!fetched || total === 0) return null;
 
   const goTo = (next) => {
     setDirection(next > current ? 1 : -1);

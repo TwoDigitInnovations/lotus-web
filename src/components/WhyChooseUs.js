@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { WHY_CHOOSE_US as fallback } from "@/data/fallback";
 import { fadeInUp, scaleInBounce, staggerContainer } from "@/lib/animations";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
+import EmptyState from "@/components/EmptyState";
 
 const DefaultIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -30,9 +30,7 @@ export default function WhyChooseUs() {
   }, []);
 
   const heading = whyChooseUs?.heading || "Why Choose Us?";
-  const features = (Array.isArray(whyChooseUs?.features) && whyChooseUs.features.length > 0)
-    ? whyChooseUs.features
-    : fallback;
+  const features = Array.isArray(whyChooseUs?.features) ? whyChooseUs.features : [];
 
   return (
     <section className="py-20 bg-white">
@@ -48,6 +46,8 @@ export default function WhyChooseUs() {
             transition={{ duration: 0.6, delay: 0.3 }}
           />
         </motion.div>
+
+        {fetched && features.length === 0 && <EmptyState message="No content available yet." />}
 
         <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-10" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-60px" }}>
           {features.map((item, i) => (

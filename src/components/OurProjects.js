@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects } from "@/store/slices/projectSlice";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp } from "@/lib/animations";
+import EmptyState from "@/components/EmptyState";
 
 export default function OurProjects() {
   const dispatch = useDispatch();
@@ -153,6 +154,7 @@ export default function OurProjects() {
         </motion.div>
 
         {/* Carousel */}
+        {fetched && filtered.length === 0 && <EmptyState message="No projects available yet." />}
         {filtered.length > 0 && (
           <div className="flex gap-4 overflow-hidden">
             <div

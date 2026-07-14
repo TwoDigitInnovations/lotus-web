@@ -31,12 +31,13 @@ export default function Navbar() {
         {/* Logo */}
         <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.95 }}>
           <Link href="/" className="flex items-center gap-2">
-            <img
-              src={logo}
-              alt="Lotusss Logo"
-              className="w-20 h-20 rounded-full object-contain"
-              // style={{ boxShadow: "0 4px 12px rgba(27,157,226,0.4)" }}
-            />
+            <div className=" p-1.5 w-20 h-20 rounded-full overflow-hidden shrink-0">
+              <img
+                src={logo}
+                alt="Lotusss Logo"
+                className="w-full h-full object-cover scale-[1.65]"
+              />
+            </div>
           </Link>
         </motion.div>
 

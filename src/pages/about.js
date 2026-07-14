@@ -23,9 +23,9 @@ export default function AboutPage() {
         url="/about"
       />
       <AboutHero data={aboutData?.hero} />
-      <AboutStory data={aboutData?.story} />
-      <Commitments data={aboutData?.commitments} />
-      <Leaders data={aboutData?.leaders} />
+      <AboutStory data={aboutData?.story} fetched={fetched} />
+      <Commitments data={aboutData?.commitments} fetched={fetched} />
+      <Leaders data={aboutData?.leaders} fetched={fetched} />
     </>
   );
 }

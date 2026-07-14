@@ -5,17 +5,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { submitContact, resetContact } from "@/store/slices/contactSlice";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
-import { FOOTER as footerFallback } from "@/data/fallback";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import SEO from "@/components/SEO";
 
-const EMPTY = { name: "", email: "", phone: "", subject: "", message: "" };
+const ENQUIRY_TYPES = ["Partner Enquiry", "General/Sales Enquiry"];
+
+const EMPTY = { name: "", email: "", phone: "", subject: "", message: "", enquiryType: ENQUIRY_TYPES[1] };
 
 function validate(form) {
   const e = {};
   if (!form.name.trim() || form.name.trim().length < 2) e.name = "Please enter your name";
   if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = "Please enter a valid email address";
   if (!form.phone.trim() || !/^\d{7,15}$/.test(form.phone.trim())) e.phone = "Phone number must be 7–15 digits (numbers only)";
+  if (!ENQUIRY_TYPES.includes(form.enquiryType)) e.enquiryType = "Please select an enquiry type";
   if (!form.subject.trim()) e.subject = "Please enter a subject";
   if (!form.message.trim()) e.message = "Please write your message";
   return e;
@@ -32,12 +34,12 @@ export default function ContactPage() {
   }, []);
 
   const contact = {
-    phone: apiFooter?.phone || footerFallback.contact.phone,
-    altPhone: apiFooter?.altPhone || footerFallback.contact.altPhone,
-    email: apiFooter?.email || footerFallback.contact.email,
-    website: apiFooter?.website || footerFallback.contact.website,
-    address: apiFooter?.address || footerFallback.contact.address,
-    addressLine2: apiFooter?.addressLine2 || footerFallback.contact.addressLine2,
+    phone: apiFooter?.phone || "",
+    altPhone: apiFooter?.altPhone || "",
+    email: apiFooter?.email || "",
+    website: apiFooter?.website || "",
+    address: apiFooter?.address || "",
+    addressLine2: apiFooter?.addressLine2 || "",
   };
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
@@ -229,6 +231,33 @@ export default function ContactPage() {
                     ))}
 
                     <motion.div variants={fadeInUp} className="flex flex-col gap-1">
+                      <select
+                        name="enquiryType"
+                        value={form.enquiryType}
+                        onChange={handleChange}
+                        className="w-full bg-transparent rounded-lg px-4 py-3 text-white text-sm outline-none transition-all"
+                        style={{
+                          border: `1px solid ${errors.enquiryType ? "rgba(252,165,165,0.7)" : "rgba(255,255,255,0.25)"}`,
+                        }}
+                        onFocus={(e) => { e.target.style.borderColor = errors.enquiryType ? "rgba(252,165,165,0.9)" : "rgba(255,255,255,0.7)"; }}
+                        onBlur={(e) => { e.target.style.borderColor = errors.enquiryType ? "rgba(252,165,165,0.7)" : "rgba(255,255,255,0.25)"; }}
+                      >
+                        {ENQUIRY_TYPES.map((t) => (
+                          <option key={t} value={t} style={{ color: "#1a2e44" }}>{t}</option>
+                        ))}
+                      </select>
+                      {errors.enquiryType && (
+                        <motion.span
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-red-300 text-xs px-1"
+                        >
+                          {errors.enquiryType}
+                        </motion.span>
+                      )}
+                    </motion.div>
+
+                    <motion.div variants={fadeInUp} className="flex flex-col gap-1">
                       <textarea
                         name="message"
                         placeholder="Write Your Message Here..."
@@ -333,7 +362,7 @@ export default function ContactPage() {
                   {item.icon}
                 </div>
                 <p className="text-white font-semibold text-base">{item.label}</p>
-                {item.lines.map((line, i) => (
+                {item.lines.filter(Boolean).map((line, i) => (
                   <p key={i} className="text-white/80 text-sm">{line}</p>
                 ))}
               </motion.div>

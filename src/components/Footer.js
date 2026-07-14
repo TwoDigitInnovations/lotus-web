@@ -50,17 +50,17 @@ export default function Footer() {
     if (!fetched) dispatch(fetchSiteSettings());
   }, []);
 
-  const description = apiFooter?.description || footerData.description;
-  const phone = apiFooter?.phone || footerData.contact.phone;
-  const email = apiFooter?.email || footerData.contact.email;
-  const address = apiFooter?.address || footerData.contact.address;
-  const whatsappNum = apiFooter?.whatsapp || footerData.whatsapp;
+  const description = apiFooter?.description || "";
+  const phone = apiFooter?.phone || "";
+  const email = apiFooter?.email || "";
+  const address = apiFooter?.address || "";
+  const whatsappNum = apiFooter?.whatsapp || "";
 
   const dynamicSocialLinks = apiFooter?.socialLinks
     ? Object.entries(apiFooter.socialLinks)
         .filter(([, href]) => href)
         .map(([platform, href]) => ({ platform, href, label: platform }))
-    : footerData.socialLinks;
+    : [];
 
   return (
     <footer className="relative">
@@ -78,7 +78,7 @@ export default function Footer() {
             {/* Logo */}
             <motion.div variants={fadeInUp}>
               <motion.div
-                className="w-20 h-16 rounded-full overflow-hidden mb-4 shrink-0"
+                className="w-20 h-20 rounded-full overflow-hidden mb-4 shrink-0"
                 // style={{ boxShadow: "0 4px 16px rgba(27,157,226,0.35)" }}
                 whileHover={{
                   scale: 1.08,
@@ -88,12 +88,14 @@ export default function Footer() {
                 <img
                   src="/images/logo.png"
                   alt="Lotusss Logo"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover scale-[1.65]"
                 />
               </motion.div>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                {description}
-              </p>
+              {description && (
+                description.trim().startsWith("<")
+                  ? <div className="rich-html text-gray-500 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: description }} />
+                  : <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+              )}
             </motion.div>
 
             {/* Menu */}
@@ -138,7 +140,7 @@ export default function Footer() {
             {/* Social */}
             <motion.div variants={fadeInUp}>
               <h4 className="text-gray-700 font-semibold text-base mb-4">
-                Social Links
+                Policies & Links
               </h4>
               <ul className="flex flex-col gap-2.5 mb-5">
                 {footerData.socialTextLinks.map((link) => (
@@ -178,30 +180,49 @@ export default function Footer() {
             </motion.div>
           </div>
         </motion.div>
+
+        <div className="max-w-7xl mx-auto px-6 mt-10 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-gray-400 text-xs">
+            &copy; {new Date().getFullYear()} Lotusss Infra. All rights reserved.
+          </p>
+          <Link
+            href="https://www.techonika.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-gray-400 text-xs hover:text-gray-600 transition"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
+            </svg>
+            Website by <span className="font-semibold">Techonika</span>
+          </Link>
+        </div>
       </div>
 
       {/* WhatsApp floating button */}
-      <motion.a
-        href={`https://wa.me/${whatsappNum}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Chat on WhatsApp"
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center z-50"
-        style={{
-          background: "#25d366",
-          boxShadow: "0 6px 20px rgba(37,211,102,0.5)",
-        }}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1.2, type: "spring", stiffness: 200 }}
-        whileHover={{
-          scale: 1.12,
-          boxShadow: "0 10px 30px rgba(37,211,102,0.6)",
-        }}
-        whileTap={{ scale: 0.92 }}
-      >
-        <WhatsAppIcon />
-      </motion.a>
+      {whatsappNum && (
+        <motion.a
+          href={`https://wa.me/${whatsappNum}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat on WhatsApp"
+          className="fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center z-50"
+          style={{
+            background: "#25d366",
+            boxShadow: "0 6px 20px rgba(37,211,102,0.5)",
+          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 1.2, type: "spring", stiffness: 200 }}
+          whileHover={{
+            scale: 1.12,
+            boxShadow: "0 10px 30px rgba(37,211,102,0.6)",
+          }}
+          whileTap={{ scale: 0.92 }}
+        >
+          <WhatsAppIcon />
+        </motion.a>
+      )}
     </footer>
   );
 }

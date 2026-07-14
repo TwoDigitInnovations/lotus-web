@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { GALLERY_PHOTOS as galleryPhotos, GALLERY_VIDEOS as galleryVideos } from '@/data/fallback';
 import { Api } from '@/lib/api';
 
 function normalize(item) {
@@ -17,8 +16,8 @@ function normalize(item) {
 const gallerySlice = createSlice({
   name: 'gallery',
   initialState: {
-    photos: galleryPhotos,
-    videos: galleryVideos,
+    photos: [],
+    videos: [],
     loading: false,
     error: null,
     fetched: false,
@@ -43,15 +42,11 @@ export const fetchGallery = (router) => async (dispatch) => {
 
     if (res?.status) {
       const items = Array.isArray(res.data) ? res.data : res.data?.data || [];
-      if (items.length) {
-        const normalized = items.map(normalize);
-        const photos = normalized.filter((i) => i.type === 'photo');
-        const videos = normalized.filter((i) => i.type === 'video');
-        if (photos.length) dispatch(setPhotos(photos));
-        if (videos.length) dispatch(setVideos(videos));
-      }
+      const normalized = items.map(normalize);
+      dispatch(setPhotos(normalized.filter((i) => i.type === 'photo')));
+      dispatch(setVideos(normalized.filter((i) => i.type === 'video')));
     } else {
-      dispatch(setError('Failed to load gallery. Showing cached data.'));
+      dispatch(setError('Failed to load gallery.'));
     }
 
     dispatch(setLoading(false));

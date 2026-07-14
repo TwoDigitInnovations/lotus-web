@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { HERO_SLIDES } from '@/data/fallback';
 import { Api } from '@/lib/api';
 
 const heroBannerSlice = createSlice({
   name: 'heroBanner',
   initialState: {
-    slides: HERO_SLIDES,
+    slides: [],
     loading: false,
     fetched: false,
   },
@@ -24,7 +23,7 @@ export const fetchHeroBanners = () => async (dispatch) => {
     const res = await Api('get', 'hero-banners', '', null);
     if (res?.status) {
       const data = res.data?.data;
-      if (Array.isArray(data) && data.length > 0) dispatch(setSlides(data));
+      dispatch(setSlides(Array.isArray(data) ? data : []));
     }
   } catch (_) {}
   finally {

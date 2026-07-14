@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { PROJECTS as dummyProjects } from '@/data/fallback';
 import { Api } from '@/lib/api';
 
 function normalize(item) {
@@ -28,7 +27,7 @@ function normalize(item) {
 const projectSlice = createSlice({
   name: 'project',
   initialState: {
-    list: dummyProjects,
+    list: [],
     byId: {},
     loading: false,
     error: null,
@@ -54,9 +53,9 @@ export const fetchProjects = (router) => async (dispatch) => {
 
     if (res?.status) {
       const items = Array.isArray(res.data) ? res.data : res.data?.data || [];
-      if (items.length) dispatch(setList(items.map(normalize)));
+      dispatch(setList(items.map(normalize)));
     } else {
-      dispatch(setError('Failed to load projects. Showing cached data.'));
+      dispatch(setError('Failed to load projects.'));
     }
 
     dispatch(setLoading(false));

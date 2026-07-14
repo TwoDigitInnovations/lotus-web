@@ -7,6 +7,7 @@ import { fetchGallery } from "@/store/slices/gallerySlice";
 import { fetchSiteSettings } from "@/store/slices/siteSettingsSlice";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import VideoModal from "@/components/VideoModal";
+import EmptyState from "@/components/EmptyState";
 
 export default function Gallery() {
   const dispatch = useDispatch();
@@ -53,38 +54,44 @@ export default function Gallery() {
           </div>
         </motion.div>
 
-        {/* Nav Buttons */}
-        <div className="flex gap-2 mb-5">
-          {[{ fn: handlePrev, dis: startIndex === 0, path: "M9 2L4 7l5 5" }, { fn: handleNext, dis: startIndex + 4 >= items.length, path: "M5 2l5 5-5 5" }].map(({ fn, dis, path }, i) => (
-            <motion.button key={i} onClick={fn} disabled={dis} whileHover={!dis ? { scale: 1.12, boxShadow: "0 6px 18px rgba(27,157,226,0.45)" } : {}} whileTap={!dis ? { scale: 0.9 } : {}}
-              className="w-9 h-9 rounded-lg flex items-center justify-center text-white disabled:opacity-40"
-              style={{ background: "#078DD4", boxShadow: "0 3px 10px rgba(27,157,226,0.3)" }}
-            >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d={path} stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </motion.button>
-          ))}
-        </div>
+        {fetched && items.length === 0 ? (
+          <EmptyState message={`No ${tab} available yet.`} />
+        ) : (
+          <>
+            {/* Nav Buttons */}
+            <div className="flex gap-2 mb-5">
+              {[{ fn: handlePrev, dis: startIndex === 0, path: "M9 2L4 7l5 5" }, { fn: handleNext, dis: startIndex + 4 >= items.length, path: "M5 2l5 5-5 5" }].map(({ fn, dis, path }, i) => (
+                <motion.button key={i} onClick={fn} disabled={dis} whileHover={!dis ? { scale: 1.12, boxShadow: "0 6px 18px rgba(27,157,226,0.45)" } : {}} whileTap={!dis ? { scale: 0.9 } : {}}
+                  className="w-9 h-9 rounded-lg flex items-center justify-center text-white disabled:opacity-40"
+                  style={{ background: "#078DD4", boxShadow: "0 3px 10px rgba(27,157,226,0.3)" }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d={path} stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </motion.button>
+              ))}
+            </div>
 
-        {/* Cards */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`${tab}-${startIndex}`}
-            className="grid grid-cols-1 md:grid-cols-2 gap-5"
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-          >
-            {visible.map((item, i) => (
-              <GalleryCard
-                key={item.id}
-                item={item}
-                tab={tab}
-                delay={i * 0.1}
-                onVideoClick={tab === "videos" ? () => setActiveVideo(item) : undefined}
-              />
-            ))}
-          </motion.div>
-        </AnimatePresence>
+            {/* Cards */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`${tab}-${startIndex}`}
+                className="grid grid-cols-1 md:grid-cols-2 gap-5"
+                variants={staggerContainer}
+                initial="hidden"
+                animate="visible"
+              >
+                {visible.map((item, i) => (
+                  <GalleryCard
+                    key={item.id}
+                    item={item}
+                    tab={tab}
+                    delay={i * 0.1}
+                    onVideoClick={tab === "videos" ? () => setActiveVideo(item) : undefined}
+                  />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </>
+        )}
       </div>
 
       {/* View All */}

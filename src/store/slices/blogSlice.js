@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { BLOGS as dummyBlogs } from '@/data/fallback';
 import { Api } from '@/lib/api';
 
 function normalize(item) {
@@ -19,7 +18,7 @@ function normalize(item) {
 const blogSlice = createSlice({
   name: 'blog',
   initialState: {
-    list: dummyBlogs,
+    list: [],
     bySlug: {},
     loading: false,
     error: null,
@@ -46,9 +45,9 @@ export const fetchBlogs = (router) => async (dispatch) => {
 
     if (res?.status) {
       const items = Array.isArray(res.data) ? res.data : res.data?.data || [];
-      if (items.length) dispatch(setList(items.map(normalize)));
+      dispatch(setList(items.map(normalize)));
     } else {
-      dispatch(setError('Failed to load blogs. Showing cached data.'));
+      dispatch(setError('Failed to load blogs.'));
     }
 
     dispatch(setLoading(false));
