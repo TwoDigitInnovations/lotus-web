@@ -6,6 +6,12 @@ import Commitments from "@/components/Commitments";
 import Leaders from "@/components/Leaders";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAboutPage } from "@/store/slices/aboutSlice";
+import {
+  aboutHero as defaultHero,
+  aboutStory as defaultStory,
+  commitments as defaultCommitments,
+  leaders as defaultLeaders,
+} from "@/data/aboutData";
 
 export default function AboutPage() {
   const dispatch = useDispatch();
@@ -15,6 +21,11 @@ export default function AboutPage() {
     if (!fetched) dispatch(fetchAboutPage());
   }, []);
 
+  const heroData = aboutData?.hero?.heading ? aboutData.hero : defaultHero;
+  const storyData = aboutData?.story?.description ? aboutData.story : defaultStory;
+  const commitmentsData = aboutData?.commitments?.length ? aboutData.commitments : defaultCommitments;
+  const leadersData = aboutData?.leaders?.length ? aboutData.leaders : defaultLeaders;
+
   return (
     <>
       <SEO
@@ -22,10 +33,10 @@ export default function AboutPage() {
         description="Learn about Lotusss Real Estate — over 15 years of experience delivering premium homes in Noida. Meet our leadership team and discover our commitment to quality."
         url="/about"
       />
-      <AboutHero data={aboutData?.hero} />
-      <AboutStory data={aboutData?.story} fetched={fetched} />
-      <Commitments data={aboutData?.commitments} fetched={fetched} />
-      <Leaders data={aboutData?.leaders} fetched={fetched} />
+      <AboutHero data={heroData} />
+      <AboutStory data={storyData} fetched={fetched} />
+      <Commitments data={commitmentsData} fetched={fetched} />
+      <Leaders data={leadersData} fetched={fetched} />
     </>
   );
 }
